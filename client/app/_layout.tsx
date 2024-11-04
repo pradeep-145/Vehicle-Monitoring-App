@@ -6,6 +6,7 @@ import { useEffect } from 'react';
 import 'react-native-reanimated';
 
 import { useColorScheme } from '@/hooks/useColorScheme';
+import { VehicleProvider } from '@/context/VehicleContext';
 SplashScreen.preventAutoHideAsync();
 export default function RootLayout() {
   const colorScheme = useColorScheme();
@@ -22,6 +23,8 @@ export default function RootLayout() {
   }
   return (
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+      <VehicleProvider>
+
       <Stack>
 
         <Stack.Screen name="main" options={{ headerShown: false }} />
@@ -29,6 +32,7 @@ export default function RootLayout() {
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
         <Stack.Screen name="+not-found" />
       </Stack>
+      </VehicleProvider>
     </ThemeProvider>
   );
 }

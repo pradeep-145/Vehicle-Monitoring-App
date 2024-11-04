@@ -4,8 +4,10 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 
 import { Link, NavigationProp } from '@react-navigation/native';
 import { router } from 'expo-router';
+import { useVehicle } from '@/context/VehicleContext';
 
 const chooseVehicle = ({ navigation }: { navigation: NavigationProp<any> }) => {
+  const {setSelectedVehicle}=useVehicle()
   const vehicles=[{
     id:1,
     name:"vehicle1"
@@ -26,7 +28,10 @@ const chooseVehicle = ({ navigation }: { navigation: NavigationProp<any> }) => {
 
         return(
 
-      <TouchableOpacity key={vehicle.id} className='bg-blue-300 flex items-center justify-center rounded-xl h-20 w-full ' onPress={()=>{router.replace(`/(tabs)?vehicleId=${vehicle.id}`)}} >
+      <TouchableOpacity key={vehicle.id} className='bg-blue-300 flex items-center justify-center rounded-xl h-20 w-full ' onPress={()=>{
+      setSelectedVehicle(vehicle)
+      router.replace('/(tabs)')
+      }} >
         <Text>{vehicle.name}</Text>
       </TouchableOpacity>
         )
