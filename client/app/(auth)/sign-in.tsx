@@ -25,7 +25,7 @@ const signIn = () => {
         setLoading(true);
         try {
             const response = await axios.post(`${API_BASE_URL}/send-otp`, {
-                params: { mobile }, // Send mobile as query param
+                params: { mobile },
             });
             if (response.data.success) {
                 setServerOtp(response.data.otp); 
@@ -48,6 +48,10 @@ const signIn = () => {
             Alert.alert('Validation Error', 'Mobile number should be 10 digits');
             return;
         }
+        else if(otp.length !== 6){
+            Alert.alert('Validation Error', 'OTP should be 6 digits');
+            return;
+            }
         if (otp != serverOtp) {
             Alert.alert('Error', 'Incorrect OTP. Please try again.');
             return;
@@ -98,7 +102,7 @@ const signIn = () => {
                         className='border-2 w-full rounded-lg p-2 mt-5'
                         placeholder='Enter OTP'
                         keyboardType='numeric'
-                        maxLength={4}
+                        maxLength={6}
                         value={otp}
                         onChangeText={setOtp}
                     />
