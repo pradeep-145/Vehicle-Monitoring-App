@@ -4,7 +4,7 @@ import { Redirect } from 'expo-router'
 
 const main = () => {
   return (
-    <Redirect href="/sign-up" />
+    <Redirect href="/(tabs)/" />
   )
 }
 

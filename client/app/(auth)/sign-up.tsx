@@ -60,37 +60,47 @@ const signUp = () => {
     return (
         <ScrollView>
             <View className="h-screen items-center justify-center">
-                <Text className="text-4xl font-bold">Create Account</Text>
+            <TouchableOpacity
+                className='absolute top-10 left-5 p-2'
+                onPress={() => router.replace('/welcome')}
+            >
+                <Text className='text-blue-500'>Back</Text>
+            </TouchableOpacity>
+                <Text className="text-3xl font-bold">Create Account</Text>
                 <TextInput
-                    className="border-2 w-80 rounded-lg p-2 mt-5"
+                    className='border-2 w-80 rounded-full border-gray-400 p-2 mt-5'
                     placeholder="User name"
                     onChangeText={setUsername}
                     value={username}
                 />
                 <View className='flex'>
                     <TextInput
-                        className='border-2 w-80 rounded-lg p-2 mt-5'
-                        placeholder='Mobile Number'
+                    className='border-2 w-80 rounded-full border-gray-400 p-2 mt-5'
+                    placeholder='Mobile Number'
                         keyboardType='numeric'
                         maxLength={10}
                         value={mobile}
                         onChangeText={setMobile}
                     />
                     <TouchableOpacity
-                        className='bg-blue-500 absolute rounded-lg p-2 items-center justify-center mt-[26px] right-2 w-20'
+                        className='bg-blue-500 absolute rounded-full p-2 items-center justify-center mt-[26px] right-2 w-24'
                         disabled={!sendOtp || loading}
                         onPress={handleSendOtp}
                     >
                         <Text className='text-white'>Send OTP</Text>
                     </TouchableOpacity>
+                    <View className='flex flex-row justify-center mt-4'>
+                    <Text className='text-sm text-center'>Already have an account? </Text>
+                    <TouchableOpacity onPress={() => router.replace('/(auth)/sign-in')}>
+                        <Text className='text-blue-500'>Sign In</Text>
+                        </TouchableOpacity>
+                        </View>
                 </View>
-
-                {/* OTP Input */}
                 {showOtp && (
                     <View className='w-80'>
                         <TextInput
-                            className='border-2 w-full rounded-lg p-2 mt-5'
-                            placeholder='Enter OTP'
+                    className='border-2 w-80 rounded-full border-gray-400 p-2 mt-5'
+                    placeholder='Enter OTP'
                             keyboardType='numeric'
                             maxLength={4}
                             value={otp}
