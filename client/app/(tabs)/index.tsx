@@ -25,7 +25,6 @@ export default function HomeScreen() {
       <MapView
         region={location}
         className='flex-1'
-
       >
         <MarkerAnimated
           coordinate={{ latitude: location.latitude, longitude: location.longitude }}
