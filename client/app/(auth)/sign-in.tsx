@@ -74,12 +74,18 @@ const signIn = () => {
 
     return (
         <View className='flex-1 items-center justify-center'>
+            <TouchableOpacity
+                className='absolute top-10 left-5 p-2'
+                onPress={() => router.replace('/welcome')}
+            >
+                <Text className='text-blue-500'>Back</Text>
+            </TouchableOpacity>
             <Text className='text-3xl font-bold'>Sign In</Text>
             
             {/* Mobile Number Input */}
             <View className='flex'>
                 <TextInput
-                    className='border-2 w-80 rounded-lg p-2 mt-5'
+                    className='border-2 w-80 rounded-full border-gray-400 p-2 mt-5'
                     placeholder='Mobile Number'
                     keyboardType='numeric'
                     maxLength={10}
@@ -87,25 +93,32 @@ const signIn = () => {
                     onChangeText={setMobile}
                 />
                 <TouchableOpacity
-                    className='bg-blue-500 absolute rounded-lg p-2 items-center justify-center mt-[26px] right-2 w-20'
-                    disabled={!sendOtp || loading}
+                        className='bg-blue-500 absolute rounded-full p-2 items-center justify-center mt-[26px] right-2 w-24'
+                        disabled={!sendOtp || loading}
                     onPress={handleSendOtp}
                 >
                     <Text className='text-white'>Send OTP</Text>
                 </TouchableOpacity>
+                <View className='flex flex-row justify-center mt-4'>
+                    <Text className='text-sm text-center'>New here? </Text>
+                    <TouchableOpacity onPress={() => router.replace('/(auth)/sign-up')}>
+                        <Text className='text-blue-500'>Sign Up</Text>
+                        </TouchableOpacity>
+                        </View>
             </View>
 
             {/* OTP Input */}
             {showOtp && (
                 <View className='w-80'>
                     <TextInput
-                        className='border-2 w-full rounded-lg p-2 mt-5'
-                        placeholder='Enter OTP'
+                    className='border-2 w-80 rounded-full border-gray-400 p-2 mt-5'
+                    placeholder='Enter OTP'
                         keyboardType='numeric'
                         maxLength={6}
                         value={otp}
                         onChangeText={setOtp}
                     />
+                    
                     <TouchableOpacity
                         className='bg-blue-500 absolute rounded-lg p-2 items-center justify-center mt-[26px] right-2 w-20'
                         onPress={handleSubmit}
@@ -113,6 +126,7 @@ const signIn = () => {
                     >
                         <Text className='text-white'>Sign In</Text>
                     </TouchableOpacity>
+                    
                 </View>
             )}
 

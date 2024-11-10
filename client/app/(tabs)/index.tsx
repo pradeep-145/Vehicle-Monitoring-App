@@ -5,7 +5,7 @@ import MapView, { MarkerAnimated } from 'react-native-maps';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 
-export default function HomeScreen() {
+const home=()=> {
   const { selectedVehicle } = useVehicle();
   const [location, setLocation] = useState({
     latitude: 11.273340,
@@ -16,6 +16,10 @@ export default function HomeScreen() {
   
   return (
     <SafeAreaView className="flex-1 p-4">
+       {
+            selectedVehicle&&<Text className='text-center font-bold text-xl bg-gray-300 rounded-xl w-32 ml-32 mb-4 p-1'>{selectedVehicle.name}</Text>
+        }   
+      <Text className="text-xl bg-gray-300 rounded-xl w-20 text-center font-bold p-1 mb-4">Map</Text>
       <View className="flex  h-1/2  border-black" style={{
         elevation:10,
         shadowColor:'#000',
@@ -44,3 +48,4 @@ export default function HomeScreen() {
     </SafeAreaView>
   );
 }
+export default home;
