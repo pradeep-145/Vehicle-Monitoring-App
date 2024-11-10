@@ -3,8 +3,8 @@ import React from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { router } from 'expo-router'
 import axios from 'axios'
-
 const otpVerification = () => {
+  
   const [otp,setOtp]=React.useState('')
   const handleSubmit=()=>{
     if(otp.length!==6){

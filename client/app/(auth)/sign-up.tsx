@@ -1,8 +1,7 @@
-import React, { useState } from 'react';
 import axios from 'axios';
-import { MaterialIcons } from '@expo/vector-icons';
-import { Link, router } from 'expo-router';
-import { ScrollView, Text, TextInput, TouchableOpacity, View, Alert } from 'react-native';
+import { router } from 'expo-router';
+import React, { useState } from 'react';
+import { Alert, ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native';
 
 const signUp = () => {
     const [showPassword, setShowPassword] = useState(true);

@@ -1,5 +1,5 @@
 import { useVehicle } from '@/context/VehicleContext';
-import { useState } from 'react';
+import { useState,useEffect } from 'react';
 import { Text, View } from 'react-native';
 import MapView, { MarkerAnimated } from 'react-native-maps';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -13,7 +13,7 @@ export default function HomeScreen() {
     latitudeDelta: 0.01,
     longitudeDelta: 0.01,
   });
-
+  
   return (
     <SafeAreaView className="flex-1 p-4">
       <View className="flex  h-1/2  border-black" style={{
