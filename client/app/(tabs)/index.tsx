@@ -40,7 +40,7 @@ const home=()=> {
       <View className='mt-2'>
 
       {selectedVehicle ? (
-        <Text>Fuel level: {selectedVehicle.id}</Text>
+        <Text >Fuel level: {selectedVehicle.id}</Text>
       ) : (
         <Text>No vehicle selected</Text>
       )}
