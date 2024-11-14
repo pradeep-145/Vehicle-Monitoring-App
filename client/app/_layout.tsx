@@ -25,7 +25,14 @@ export default function RootLayout() {
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
       <VehicleProvider>
 
-      <Stack>
+      <Stack screenOptions={
+        {
+          headerShown: false,
+          
+        }
+        
+
+      }>
 
         <Stack.Screen name="main" options={{ headerShown: false }} />
         <Stack.Screen name="(auth)" options={{ headerShown: false }} />
