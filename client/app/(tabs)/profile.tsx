@@ -19,7 +19,7 @@ const profile = () => {
       <TouchableOpacity onPress={()=>router.replace('/(auth)/sign-in')}>
         <Text className='font-bold text-md m-4 bg-gray-300 p-2 rounded-xl'>Logout</Text>
     </TouchableOpacity>
-      <TouchableOpacity onPress={()=>router.replace('/(tabs)')}>
+      <TouchableOpacity onPress={()=>router.replace('/(tabs)/add-vehicle')}>
       <Text className='font-bold text-md m-4 bg-gray-300 p-2 rounded-xl'>Add vehicle +</Text>
       </TouchableOpacity>
       </View>

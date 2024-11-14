@@ -2,6 +2,8 @@ import { useVehicle } from '@/context/VehicleContext';
 import { useState,useEffect } from 'react';
 import {ScrollView, Text, View } from 'react-native';
 import MapView, { MarkerAnimated } from 'react-native-maps';
+import Animated, { useSharedValue, useAnimatedStyle } from 'react-native-reanimated';
+import { ScrollView } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 
@@ -16,6 +18,7 @@ const home=()=> {
   
   return (
     <SafeAreaView className="flex-1 p-4">
+      <ScrollView>
        {
             selectedVehicle&&<Text className='text-center font-bold text-xl bg-gray-300 rounded-xl w-32 ml-32 mb-4 p-1'>{selectedVehicle.name}</Text>
         }   
