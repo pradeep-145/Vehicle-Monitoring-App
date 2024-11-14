@@ -1,12 +1,12 @@
-// import { View, Text } from 'react-native'
-// import React from 'react'
+import { View, Text } from 'react-native'
+import React from 'react'
 
-// const add-vehicle = () => {
-//   return (
-//     <View>
-//       <Text>add-vehicle</Text>
-//     </View>
-//   )
-// }
+const addVehicle = () => {
+  return (
+    <View>
+      <Text>add-vehicle</Text>
+    </View>
+  )
+}
 
-// export default add-vehicle
+export default addVehicle
