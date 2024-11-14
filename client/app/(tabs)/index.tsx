@@ -1,7 +1,9 @@
 import { useVehicle } from '@/context/VehicleContext';
 import { useState,useEffect } from 'react';
-import {ScrollView, Text, View } from 'react-native';
+import { Text, View } from 'react-native';
 import MapView, { MarkerAnimated } from 'react-native-maps';
+import Animated, { useSharedValue, useAnimatedStyle } from 'react-native-reanimated';
+import { ScrollView } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 
@@ -16,11 +18,12 @@ const home=()=> {
   
   return (
     <SafeAreaView className="flex-1 p-4">
+      <ScrollView>
        {
             selectedVehicle&&<Text className='text-center font-bold text-xl bg-gray-300 rounded-xl w-32 ml-32 mb-4 p-1'>{selectedVehicle.name}</Text>
         }   
       <Text className="text-xl bg-gray-300 rounded-xl w-20 text-center font-bold p-1 mb-4">Map</Text>
-      <View className="flex  h-1/4  border-black" style={{
+      <View className="flex  h-1/2  border-black" style={{
         elevation:10,
         shadowColor:'#000',
         borderRadius:10,
@@ -28,7 +31,7 @@ const home=()=> {
 
       <MapView
         region={location}
-        className='flex-1 fixed'
+        className='flex-1'
       >
         <MarkerAnimated
           coordinate={{ latitude: location.latitude, longitude: location.longitude }}
@@ -37,34 +40,70 @@ const home=()=> {
         />
       </MapView>
       </View>
-      <ScrollView className='mt-2'>
+      <View className='flex flex-col justify-center items-center mt-10'>
+        <Text className='text-xl bg-gray-300 rounded-lg w-40 text-center font-bold p-1 mb-4'>Fuel Level</Text>
 
       {selectedVehicle ? (
-        <View>
-  
-        <View >
-          <Text className="text-xl bg-gray-300 rounded-xl w-20 text-center font-bold p-1 mt-6">Details</Text>
-          <View className="flex flex-col mt-6 justify-between">
-            <Text className="text-lg">Speed</Text>
-            <Text className="text-lg border-2 border-gray-400 h-10 rounded-lg">{selectedVehicle.speed}</Text>
-          </View>
-          <View className="flex flex-col mt-6 justify-between">
-            <Text className="text-lg">Fuel</Text>
-            <Text className="text-lg border-2 border-gray-400 h-10 rounded-lg">{selectedVehicle.fuel}</Text>
-          </View>
-          <View className="flex flex-col mt-6 justify-between">
-            <Text className="text-lg">Location</Text>
-            <Text className="text-lg border-2 border-gray-400 h-10 rounded-lg">{selectedVehicle.location}</Text>
-          </View>
-        
+        <View className='bg-gray-300 rounded-lg font-bold p-1 text-md w-60' >
+        <Text> {selectedVehicle.id} </Text>
+        <Text>1</Text>
+        <Text>1</Text>
+        <Text>1</Text>
+        <Text>1</Text>
         </View>
-
-
-      </View>
       ) : (
         <Text>No vehicle selected</Text>
       )}
-      </ScrollView>
+      </View>
+
+      <View className='flex flex-col justify-center items-center mt-10'>
+        <Text className='text-xl bg-gray-300 rounded-lg w-40 text-center font-bold p-1 mb-4'>Speed</Text>
+
+      {selectedVehicle ? (
+        <View className='bg-gray-300 rounded-lg font-bold p-1 text-md w-60' >
+        <Text> {selectedVehicle.id} </Text>
+        <Text>1</Text>
+        <Text>1</Text>
+        <Text>1</Text>
+        <Text>1</Text>
+        </View>
+      ) : (
+        <Text>No vehicle selected</Text>
+      )}
+      </View>
+
+      <View className='flex flex-col justify-center items-center mt-10'>
+        <Text className='text-xl bg-gray-300 rounded-lg w-40 text-center font-bold p-1 mb-4'>Engine Status</Text>
+
+      {selectedVehicle ? (
+        <View className='bg-gray-300 rounded-lg font-bold p-1 text-md w-60' >
+        <Text> {selectedVehicle.id} </Text>
+        <Text>1</Text>
+        <Text>1</Text>
+        <Text>1</Text>
+        <Text>1</Text>
+        </View>
+      ) : (
+        <Text>No vehicle selected</Text>
+      )}
+      </View>
+
+      <View className='flex flex-col justify-center items-center mt-10'>
+        <Text className='text-xl bg-gray-300 rounded-lg w-40 text-center font-bold p-1 mb-4'>Gear number</Text>
+
+      {selectedVehicle ? (
+        <View className='bg-gray-300 rounded-lg font-bold p-1 text-md w-60' >
+        <Text> {selectedVehicle.id} </Text>
+        <Text>1</Text>
+        <Text>1</Text>
+        <Text>1</Text>
+        <Text>1</Text>
+        </View>
+      ) : (
+        <Text>No vehicle selected</Text>
+      )}
+      </View>
+      </ScrollView>    
     </SafeAreaView>
   );
 }
