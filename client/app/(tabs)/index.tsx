@@ -59,7 +59,6 @@ const home=()=> {
         
         </View>
 
-
       </View>
       ) : (
         <Text>No vehicle selected</Text>
