@@ -23,7 +23,7 @@ const analytics = () => {
                 <Text>Hello</Text>
                 </View>
         }
-        <View>
+        <View className='flex-1'>
         <Picker
             selectedValue={1}
             onValueChange={(itemValue, itemIndex) => console.log(itemValue)}
