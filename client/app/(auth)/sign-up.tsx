@@ -66,7 +66,8 @@ const signUp = () => {
             >
                 <Text className='text-blue-500'>Back</Text>
             </TouchableOpacity>
-                <Text className="text-3xl font-bold">Create Account</Text>
+            <View className='border-2 border-gray-400 rounded-3xl p-3'>
+                <Text className="text-3xl font-bold text-center">Create Account</Text>
                 <TextInput
                     className='border-2 w-80 rounded-full border-gray-400 p-2 mt-5'
                     placeholder="User name"
@@ -115,6 +116,7 @@ const signUp = () => {
                         </TouchableOpacity>
                     </View>
                 )}
+            </View>
             </View>
         </ScrollView>
     );

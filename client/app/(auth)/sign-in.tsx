@@ -80,10 +80,11 @@ const signIn = () => {
             >
                 <Text className='text-blue-500'>Back</Text>
             </TouchableOpacity>
-            <Text className='text-3xl font-bold'>Sign In</Text>
+            <View className='border-2 border-gray-400 rounded-3xl p-3'>
+            <Text className='text-3xl font-bold text-center'>Sign In</Text>
             
             {/* Mobile Number Input */}
-            <View className='flex'>
+            <View className='flex justify-center items-center'>
                 <TextInput
                     className='border-2 w-80 rounded-full border-gray-400 p-2 mt-5'
                     placeholder='Mobile Number'
@@ -132,6 +133,7 @@ const signIn = () => {
 
             {/* Loading Indicator */}
             {loading && <ActivityIndicator size="large" color="#0000ff" style={{ marginTop: 20 }} />}
+        </View>
         </View>
     );
 };

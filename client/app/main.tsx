@@ -14,7 +14,7 @@ const main = () => {
 )
   return (
   <>
-    <Redirect href="/(tabs)/analytics" />
+    <Redirect href="/(auth)/sign-up" />
 
     </>
   )
