@@ -17,7 +17,6 @@ const analytics = () => {
     ],
   };
 
-  // Calculate width based on screen size with padding adjustments for better responsiveness
   const chartWidth = Dimensions.get('window').width * 0.9;
 
   return (
@@ -44,7 +43,7 @@ const analytics = () => {
         </Picker>
 
         <View style={{ alignItems: 'center', marginTop: 20 }}>
-          
+
           <BarChart
             data={data}
             width={chartWidth} 
