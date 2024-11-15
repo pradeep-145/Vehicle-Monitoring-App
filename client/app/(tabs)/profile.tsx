@@ -16,6 +16,7 @@ const profile = () => {
     const [showModel,setShowModel]=React.useState(false)
   return (
     <SafeAreaView className='flex w-full flex-1'>
+      
       <View className='flex justify-between flex-row'>
       <TouchableOpacity onPress={()=>router.replace('/(auth)/sign-in')}>
         <Text className='font-bold text-md m-4 bg-gray-300 p-2 rounded-xl'>Logout</Text>

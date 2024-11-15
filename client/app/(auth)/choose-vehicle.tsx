@@ -16,6 +16,7 @@ const chooseVehicle = ({ navigation }: { navigation: NavigationProp<any> }) => {
     id:2,
     name:"vehicle 2"
   },
+  
   {
     id:3,
     name:"vehicle 3"

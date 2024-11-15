@@ -44,6 +44,7 @@ const analytics = () => {
         </Picker>
 
         <View style={{ alignItems: 'center', marginTop: 20 }}>
+          
           <BarChart
             data={data}
             width={chartWidth} 

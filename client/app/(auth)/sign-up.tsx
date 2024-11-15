@@ -89,6 +89,7 @@ const signUp = () => {
                         disabled={!sendOtp || loading}
                         onPress={handleSendOtp}
                     >
+                        
                         <Text className='text-white'>Send OTP</Text>
                     </TouchableOpacity>
                     <View className='flex flex-row justify-center mt-4'>

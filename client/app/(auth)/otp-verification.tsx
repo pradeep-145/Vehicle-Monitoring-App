@@ -11,6 +11,7 @@ const otpVerification = () => {
       alert('OTP should be of 6 digits')
       return
     }
+    
     else{
       axios.post('http://localhost:3000/auth/verify-otp',{otp:otp}).then((res)=>{
         if(res.data.success){

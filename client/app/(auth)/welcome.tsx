@@ -15,6 +15,7 @@ const welcome = () => {
       <Text className='text-md m-2'>Seamless Vehicle tracking made simple...</Text>
       <TouchableOpacity onPress={()=>{
         handleSignUp();
+        
       }}>
         <Text className='text-lg font-semibold border-2 border-blue-300 bg-blue-300 rounded-3xl p-2 w-64 text-center mt-5'>Sign Up</Text>
       </TouchableOpacity>

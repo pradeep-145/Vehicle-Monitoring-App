@@ -12,6 +12,7 @@ const Layout = () => {
         <Stack.Screen name="otp-verification" options={{ headerShown: false }} />
         <Stack.Screen name="choose-vehicle" options={{ headerShown: false }} />
       </Stack>
+      
     </VehicleProvider>
   );
 };

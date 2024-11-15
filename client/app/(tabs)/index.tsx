@@ -7,7 +7,7 @@ import { ScrollView } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 
-const home=()=> {
+const index=()=> {
   const { selectedVehicle } = useVehicle();
   const [location, setLocation] = useState({
     latitude: 11.273340,
@@ -19,6 +19,7 @@ const home=()=> {
   return (
     
       <ScrollView contentContainerStyle={{paddingBottom:500,paddingHorizontal:20}}>
+
        {
             selectedVehicle&&<Text className='text-center font-bold text-xl bg-gray-300 rounded-xl w-32 ml-32 mb-4 p-1'>{selectedVehicle.name}</Text>
        }   
@@ -104,7 +105,8 @@ const home=()=> {
       )}
       </View>
       </ScrollView>    
+      
     
   );
 }
-export default home;
+export default index;
