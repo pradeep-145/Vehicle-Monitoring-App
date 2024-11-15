@@ -1,53 +1,102 @@
-import { View, Text, Touchable } from 'react-native'
-import React from 'react'
-import { SafeAreaView } from 'react-native-safe-area-context'
-import { TouchableOpacity } from 'react-native'
-import { router } from 'expo-router'
-import { Ionicons } from '@expo/vector-icons'
-import { useVehicle } from '@/context/VehicleContext'
-import AddVehicle from '@/components/add-vehicle'
-const profile = () => {
-  const {setSelectedVehicle}=useVehicle()
-    const vehicles=[
-        {id:1,name:"vehicle 1"},
-        {id:2,name:"vehicle 2"},
-        {id:3,name:"vehicle 3"}
-    ]
-    const [showModel,setShowModel]=React.useState(false)
+import { View, Text, TouchableOpacity, TextInput, ScrollView } from 'react-native';
+import React, { useState } from 'react';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { router } from 'expo-router';
+import { useVehicle } from '@/context/VehicleContext';
+
+const Profile = () => {
+  const { selectedVehicle, setSelectedVehicle } = useVehicle();
+
+  const vehicles = [
+    { id: 1, name: "Vehicle 1" },
+    { id: 2, name: "Vehicle 2" },
+    { id: 3, name: "Vehicle 3" },
+  ];
+
+  const [showAddVehicleForm, setShowAddVehicleForm] = useState(false);
+  const [newVehicle, setNewVehicle] = useState({ name: '', number: '', type: '', model: '' });
+
+  const handleAddVehicle = () => {
+    setShowAddVehicleForm(true);
+  };
+
+  const handleSaveVehicle = () => {
+    // Code to save the new vehicle
+    setShowAddVehicleForm(false);
+    setNewVehicle({ name: '', number: '', type: '', model: '' });
+  };
+
   return (
-    <SafeAreaView className='flex w-full flex-1'>
-      
-      <View className='flex justify-between flex-row'>
-      <TouchableOpacity onPress={()=>router.replace('/(auth)/sign-in')}>
-        <Text className='font-bold text-md m-4 bg-gray-300 p-2 rounded-xl'>Logout</Text>
-    </TouchableOpacity>
-    
-      <TouchableOpacity onPress={()=>setShowModel(true)}>
-      <Text className='font-bold text-md m-4 bg-gray-300 p-2 rounded-xl'>Add vehicle +</Text>
-      </TouchableOpacity>
-
+    <SafeAreaView className="flex w-full flex-1 p-4">
+      <View className="flex flex-row justify-between">
+        <TouchableOpacity onPress={() => router.replace('/(auth)/sign-in')}>
+          <Text className="font-bold text-md bg-gray-300 p-2 rounded-xl">Logout</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={handleAddVehicle}>
+          <Text className="font-bold text-md bg-gray-300 p-2 rounded-xl">Add Vehicle +</Text>
+        </TouchableOpacity>
       </View>
-        <Text className='font-bold text-xl ml-5 mb-5'>Your Vehicles </Text>
-        <View className='flex gap-5 justify-center items-center'>
-        {vehicles.map(vehicle=>{        
-          return(
-          <TouchableOpacity key={vehicle.id} className='bg-blue-300 flex items-center justify-center rounded-xl h-12 w-3/4' onPress={()=>{
-            setSelectedVehicle(vehicle)
-            router.replace(`/(tabs)`)}} >
-          <Text>{vehicle.name}</Text>
-          </TouchableOpacity>
-          )
-          }
-          )
-          }
-        </View>
-        {showModel&&
-        <View className='flex justify-center items-center bg-black p-20'>
-          <AddVehicle />
-        </View>
-        }
-    </SafeAreaView>
-  )
-}
 
-export default profile
+      <Text className="font-bold text-xl mt-5 mb-3">Your Vehicles</Text>
+      <ScrollView>
+        <View className="gap-3">
+          {vehicles.map(vehicle => (
+            <TouchableOpacity
+              key={vehicle.id}
+              className={`rounded-xl h-12 flex items-center justify-center text-white ${selectedVehicle?.id === vehicle.id ? 'bg-yellow-500' : 'bg-blue-300'}`}
+              onPress={() => {
+                setSelectedVehicle(vehicle);
+                router.replace(`/(tabs)`);
+              }}
+            >
+              <Text>{vehicle.name}</Text>
+            </TouchableOpacity>
+          ))}
+        </View>
+
+        {showAddVehicleForm && (
+          <View className="mt-5 bg-white p-5 rounded-xl shadow">
+            <Text className="text-xl font-bold text-center mb-4">Add New Vehicle</Text>
+
+            <TextInput
+              className="border border-gray-300 rounded-lg p-2 mb-3"
+              placeholder="Vehicle Name"
+              value={newVehicle.name}
+              onChangeText={(text) => setNewVehicle({ ...newVehicle, name: text })}
+            />
+
+            <TextInput
+              className="border border-gray-300 rounded-lg p-2 mb-3"
+              placeholder="Vehicle Number"
+              value={newVehicle.number}
+              onChangeText={(text) => setNewVehicle({ ...newVehicle, number: text })}
+            />
+
+            <TextInput
+              className="border border-gray-300 rounded-lg p-2 mb-3"
+              placeholder="Vehicle Type"
+              value={newVehicle.type}
+              onChangeText={(text) => setNewVehicle({ ...newVehicle, type: text })}
+            />
+
+            <TextInput
+              className="border border-gray-300 rounded-lg p-2 mb-3"
+              placeholder="Vehicle Model"
+              value={newVehicle.model}
+              onChangeText={(text) => setNewVehicle({ ...newVehicle, model: text })}
+            />
+
+            <TouchableOpacity
+              className="bg-yellow-500 rounded-xl p-3 mt-3 items-center"
+              onPress={handleSaveVehicle}
+            >
+              <Text className="text-white">Save Vehicle</Text>
+            </TouchableOpacity>
+          </View>
+        )}
+      </ScrollView>
+    </SafeAreaView>
+  );
+};
+
+export default Profile;

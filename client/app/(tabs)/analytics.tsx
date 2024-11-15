@@ -21,7 +21,7 @@ const analytics = () => {
   const chartWidth = Dimensions.get('window').width * 0.9;
 
   return (
-    <ScrollView contentContainerStyle={{ alignItems: 'center' }} className='border-2 flex p-4'>
+    <ScrollView contentContainerStyle={{ alignItems: 'center' }} className='flex p-4 mt-10'>
       {selectedVehicle && (
         <View className='flex-1 h-80 border-2 rounded-lg w-full items-center justify-center mb-4'>
           <View className='w-full p-4'></View>

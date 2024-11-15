@@ -18,7 +18,7 @@ const index=()=> {
   
   return (
     
-      <ScrollView contentContainerStyle={{paddingBottom:500,paddingHorizontal:20}}>
+      <ScrollView className='mt-16' contentContainerStyle={{paddingBottom:500,paddingHorizontal:20}}>
 
        {
             selectedVehicle&&<Text className='text-center font-bold text-xl bg-gray-300 rounded-xl w-32 ml-32 mb-4 p-1'>{selectedVehicle.name}</Text>
