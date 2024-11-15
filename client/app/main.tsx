@@ -1,23 +1,26 @@
-import { View, Text } from 'react-native'
-import React, { useEffect } from 'react'
-import { Redirect } from 'expo-router'
-import {useVehicle} from '@/context/VehicleContext'
-const main = () => {
-  const {setSelectedVehicle}=useVehicle()
-  useEffect(()=>{
+import { useVehicle } from '@/context/VehicleContext';
+import { useRouter } from 'expo-router'; // Import useRouter for navigation
+import { useEffect } from 'react';
+
+const Main = () => {
+  const { setSelectedVehicle } = useVehicle();
+  const router = useRouter(); // Initialize useRouter
+
+  useEffect(() => {
+    // Set selected vehicle only once when the component mounts
     setSelectedVehicle({
-      id:1,
-      name:"vehicle1"
-    })
+      id: 1,
+      name: "vehicle1"
+    });
+    console.log("hello")
 
-  }
-)
+    // Navigate to the sign-in page
+    router.push('/(auth)/sign-in'); 
+  }, [setSelectedVehicle, router]);
+
   return (
-  <>
-    <Redirect href="/(auth)/sign-up" />
-
-    </>
-  )
+    <></> // No need for additional JSX in this case
+  );
 }
 
-export default main
+export default Main;

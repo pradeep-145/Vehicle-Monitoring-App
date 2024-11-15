@@ -20,12 +20,16 @@ export default function TabLayout() {
         headerShown: false,
         tabBarStyle:{
           backgroundColor: '#000000',
-          height:70,
-          borderRadius:50,
+          height:50,
+          display:'flex',
+          flexDirection:'row',
+          borderRadius:100,
           margin:5,
+          marginHorizontal:20,
+          justifyContent:'space-between',
           
-          padding: 10,
-          position:'absolute'
+          position:'relative'
+
           
         }
       }}

@@ -94,7 +94,7 @@ const signIn = () => {
                     onChangeText={setMobile}
                 />
                 <TouchableOpacity
-                        className='bg-blue-500 absolute rounded-full p-2 items-center justify-center mt-[26px] right-2 w-24'
+                        className='bg-blue-500 absolute rounded-full p-2 items-center justify-center mt-[20px] right-2 w-24'
                         disabled={!sendOtp || loading}
                     onPress={handleSendOtp}
                 >

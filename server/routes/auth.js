@@ -1,12 +1,10 @@
 const express = require('express');
-const db= require('../config/db');
+const db=require("../config/db")
 const otpGen = require('otp-generator');
 const cors = require('cors');
-const jwtService = require('../services/jwtService');
-const axios = require('axios');
-const { TokenExpiredError } = require('jsonwebtoken');
+const jwtService = require('../services/jwtService'); // Ensure this is correctly implemented
 const router = express.Router();
-
+const axios = require('axios');
 
 router.use(express.json());
 router.use(cors());
@@ -51,12 +49,10 @@ router.post('/send-otp', async (req, res) => {
   }
 
   try {
-    const otp = otpGen.generate(6, { upperCase: false, specialChars: false, alphabets: false });
-
-    axios.get(`https://www.fast2sms.com/dev/bulkV2?authorization=j2o3T8JgFRqz0WhGdpLfemKMbVEUBn4xAsv7wZrlPIcDXNO51Q7gr6U9JAiNShp1sQ4x3fzOwaWtEBbC&route=otp&variables_values=${otp}&flash=0&numbers=${mobile}`).then(response=>response.json())
+    const otp = Array.from({ length: 6 }, () => Math.floor(Math.random() * 10)).join('');
+    console.log(`OTP for ${mobile}: ${otp}`);
+    axios.get(`https://www.fast2sms.com/dev/bulkV2?authorization=j2o3T8JgFRqz0WhGdpLfemKMbVEUBn4xAsv7wZrlPIcDXNO51Q7gr6U9JAiNShp1sQ4x3fzOwaWtEBbC&route=otp&variables_values=${otp}&flash=0&numbers=${mobile}`).then(response=>res.json({success:true}))
     .catch(error=>console.log(error))
-
-    res.status(200).json({ message: 'OTP sent successfully', otp: otp });
   } catch (error) {
     console.error('Error sending OTP:', error);
     res.status(500).json({ message: 'Server error', error });
@@ -64,9 +60,9 @@ router.post('/send-otp', async (req, res) => {
 });
 
 router.post('/login', async (req, res) => {
-  const { mobile } = req.body;
+  const { mobile, otp } = req.body;
 
-  if (!mobile ) {
+  if (!mobile || !otp) {
     return res.status(400).json({ message: 'All fields are required' });
   }
 
@@ -78,8 +74,12 @@ router.post('/login', async (req, res) => {
     if (user.length === 0) {
       return res.status(400).json({ message: 'Invalid credentials' });
     }
-    const token=jwtService.generateToken(user[0]);
-    res.status(200).json({ message: 'Login successful', user: user[0],token:token });
+
+    // For demonstration purposes, we assume the OTP is valid
+    // In a real application, you would verify the OTP here
+
+    const token = jwtService.generateToken(user[0]);
+    res.status(200).json({ message: 'Login successful', user: user[0], token });
   } catch (error) {
     console.error('Error logging in:', error);
     res.status(500).json({ message: 'Server error', error });

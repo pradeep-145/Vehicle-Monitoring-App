@@ -17,13 +17,13 @@ const home=()=> {
   });
   
   return (
-    <SafeAreaView className="flex-1 p-4">
-      <ScrollView>
+    
+      <ScrollView contentContainerStyle={{paddingBottom:500,paddingHorizontal:20}}>
        {
             selectedVehicle&&<Text className='text-center font-bold text-xl bg-gray-300 rounded-xl w-32 ml-32 mb-4 p-1'>{selectedVehicle.name}</Text>
-        }   
+       }   
       <Text className="text-xl bg-gray-300 rounded-xl w-20 text-center font-bold p-1 mb-4">Map</Text>
-      <View className="flex  h-1/2  border-black" style={{
+      <View className="flex  h-1/3  border-black" style={{
         elevation:10,
         shadowColor:'#000',
         borderRadius:10,
@@ -104,7 +104,7 @@ const home=()=> {
       )}
       </View>
       </ScrollView>    
-    </SafeAreaView>
+    
   );
 }
 export default home;

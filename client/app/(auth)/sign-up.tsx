@@ -16,13 +16,14 @@ const signUp = () => {
     const handleSendOtp = async () => {
         if (mobile.length !== 10) {
             Alert.alert('Validation Error', 'Mobile number should be 10 digits');
+
             return;
         }
 
         setLoading(true);
         try {
             const response = await axios.post(`${API_BASE_URL}/send-otp`, {
-                params: { mobile }, // Send mobile as query param
+                mobile// Send mobile as query param
             });
             if (response.data.success) {
                 setServerOtp(response.data.otp);
@@ -84,7 +85,7 @@ const signUp = () => {
                         onChangeText={setMobile}
                     />
                     <TouchableOpacity
-                        className='bg-blue-500 absolute rounded-full p-2 items-center justify-center mt-[26px] right-2 w-24'
+                        className='bg-blue-500 absolute rounded-full p-2 items-center justify-center mt-[20px] right-2 w-24'
                         disabled={!sendOtp || loading}
                         onPress={handleSendOtp}
                     >
