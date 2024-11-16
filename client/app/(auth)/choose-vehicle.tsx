@@ -10,7 +10,7 @@ const chooseVehicle = ({ navigation }: { navigation: NavigationProp<any> }) => {
   const {setSelectedVehicle}=useVehicle()
   const vehicles=[{
     id:1,
-    name:"vehicle1"
+    name:"vehicle 1"
   },
   {
     id:2,

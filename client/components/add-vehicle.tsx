@@ -16,9 +16,9 @@ const AddVehicle = () => {
       onRequestClose={toggleModal}
     >
       {/* Blurred Background */}
-      <View className="flex-1 bg-black bg-opacity-50 items-center justify-center">
+      <View className="flex items-center justify-center">
         {/* Modal Content */}
-        <View className="bg-white rounded-3xl p-5 w-80">
+        <View className="bg-white rounded-3xl shadow-xl shadow-[#76ABAE] p-5 w-80">
           <Text className="text-2xl font-bold text-center mb-2">Add New Vehicle</Text>
 
           <View className="pt-4 pb-4">

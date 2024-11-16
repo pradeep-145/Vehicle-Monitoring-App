@@ -21,19 +21,20 @@ const Analytics = () => {
 
   return (
     <ScrollView
-      contentContainerStyle={{ alignItems: 'center' }}
-      className="flex p-4 mt-10 text-yellow-500"
+      // contentContainerStyle={{ alignItems: 'center' }}
+      className="flex p-4 mt-12 text-[#76ABAE]"
     >
+      <Text className="text-lg font-bold text-black bg-[#76ABAE] rounded-xl p-2 w-36 text-center mb-2">ANALYTICS</Text>
       {/* Selected Vehicle Details */}
       {selectedVehicle && (
-        <View className="flex-1 h-80 border-2 bg-[#3C3C3C] border-yellow-500 rounded-lg w-full items-center justify-center mb-4">
-          <Text className="text-lg font-bold mb-2 text-yellow-500">
+        <View className="flex h-80 border-2 bg-[#243642] border-[#76ABAE] rounded-lg w-full items-center justify-center mb-4 mt-4">
+          <Text className="text-lg font-bold mb-2 text-[#76ABAE]">
             Driver Details
           </Text>
-          <Text className="text-yellow-500">Name: John Doe</Text>
-          <Text className="text-yellow-500">License Number: ABC123456</Text>
-          <Text className="text-yellow-500">Experience: 5 years</Text>
-          <Text className="text-yellow-500">Contact: (123) 456-7890</Text>
+          <Text className="text-[#76ABAE]">Name: John Doe</Text>
+          <Text className="text-[#76ABAE]">License Number: ABC123456</Text>
+          <Text className="text-[#76ABAE]">Experience: 5 years</Text>
+          <Text className="text-[#76ABAE]">Contact: (123) 456-7890</Text>
         </View>
       )}
 
@@ -43,15 +44,18 @@ const Analytics = () => {
           selectedValue={1}
           onValueChange={(itemValue, itemIndex) => console.log(itemValue)}
           style={styles.picker}
-          dropdownIconColor="#eab308"
+          dropdownIconColor="#76ABAE"
         >
-          <Picker.Item label="Fuel" value={1} color='#AA831C' />
-          <Picker.Item label="Speed" value={2} color='#AA831C' />
+          <Picker.Item label="Fuel" value={1} color='#76ABAE' />
+          <Picker.Item label="Speed" value={2} color='#76ABAE' />
         </Picker>
       </View>
 
       {/* Bar Chart */}
-      <View style={{ alignItems: 'center', marginTop: 20 }}>
+      {/* <View className='flex-1 items-start'>
+      <Text className='text-xl font-bold text-black bg-[#76ABAE] rounded-xl p-2 text-center mt-4'>Fuel Consumption</Text>
+      </View> */}
+      <View style={{ alignItems: 'center', marginTop: 10 }}>
         <BarChart
           data={data}
           width={chartWidth}
@@ -59,9 +63,9 @@ const Analytics = () => {
           yAxisLabel="$"
           yAxisSuffix=""
           chartConfig={{
-            backgroundColor: '#1cc910',
+            backgroundColor: '#76ABAE',
             backgroundGradientFrom: '#eff3ff',
-            backgroundGradientTo: '#efefef',
+            backgroundGradientTo: '#76ABAE',
             decimalPlaces: 2,
             color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
             labelColor: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
@@ -76,18 +80,18 @@ const Analytics = () => {
 
 const styles = StyleSheet.create({
   pickerWrapper: {
-    width: '50%',
-    backgroundColor: '#3C3C3C', // Black background
-    borderRadius: 20, // Rounded borders
+    width: '38%',
+    backgroundColor: '#243642', // Black background
+    borderRadius: 15, // Rounded borders
     borderWidth: 2, // Yellow border thickness
-    borderColor: '#eab308', // Yellow border color
+    borderColor: '#76ABAE', // Yellow border color
     overflow: 'hidden', // Ensures rounded corners apply properly
-    marginBottom: 20,
-    marginTop:20,
+    marginBottom: 10,
+    marginTop:10,
     
   },
   picker: {
-    color: '#eab308', // Text color for options
+    color: '#76ABAE', // Text color for options
     width: '100%',
   },
 });

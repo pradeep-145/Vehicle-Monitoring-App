@@ -2,7 +2,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 import { useRouter } from 'expo-router'; // Fixed import for router in Expo
 import React, { useState } from 'react';
-import { ActivityIndicator, Alert, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { Alert, ScrollView, Text, TextInput, TouchableOpacity, View,ActivityIndicator } from 'react-native';
 
 const signIn = () => {
     const [sendOtp, setSendOtp] = useState(true);
@@ -73,47 +73,49 @@ const signIn = () => {
     };
 
     return (
-        <View className='flex-1 items-center justify-center'>
+        <ScrollView>
+        <View className='h-screen items-center justify-center'>
             <TouchableOpacity
-                className='absolute top-10 left-5 p-2'
+                className='absolute top-10 left-5 p-2 bg-[#76ABAE] rounded-xl w-16 text-center items-center justify-center mt-5'
                 onPress={() => router.replace('/welcome')}
             >
-                <Text className='text-blue-500'>Back</Text>
+                <Text className='text-black'> Back</Text>
             </TouchableOpacity>
-            <View className='border-2 border-gray-400 rounded-3xl p-3'>
-            <Text className='text-3xl font-bold text-center'>Sign In</Text>
+            <View className=' border-2 border-[#76ABAE] rounded-3xl p-6'>
+            <Text className='text-3xl font-bold text-center text-[#76ABAE]'>Sign In</Text>
             
             {/* Mobile Number Input */}
-            <View className='flex justify-center items-center'>
-                <TextInput
-                    className='border-2 w-80 rounded-full border-gray-400 p-2 mt-5'
+            <View className='flex'>
+                    <TextInput
+                    className='border-2 w-80 rounded-full border-[#76ABAE] p-2 mt-5'
                     placeholder='Mobile Number'
-                    keyboardType='numeric'
-                    maxLength={10}
-                    value={mobile}
-                    onChangeText={setMobile}
-                />
-                <TouchableOpacity
-                        className='bg-blue-500 absolute rounded-full p-2 items-center justify-center mt-[20px] right-2 w-24'
+                    placeholderTextColor={'#94a3b8'}
+                        keyboardType='numeric'
+                        maxLength={10}
+                        value={mobile}
+                        onChangeText={setMobile}
+                    />
+                    <TouchableOpacity
+                        className='bg-[#76ABAE] absolute rounded-full p-2 items-center justify-center mt-[25px] right-2 w-24'
                         disabled={!sendOtp || loading}
-                    onPress={handleSendOtp}
-                >
-                    
-                    <Text className='text-white'>Send OTP</Text>
-                </TouchableOpacity>
-                <View className='flex flex-row justify-center mt-4'>
-                    <Text className='text-sm text-center'>New here? </Text>
+                        onPress={handleSendOtp}
+                    >
+                        
+                        <Text className='text-black'>Send OTP</Text>
+                    </TouchableOpacity>
+                    <View className='flex flex-row justify-center mt-4'>
+                    <Text className='text-sm text-center text-gray-500'>New Here? </Text>
                     <TouchableOpacity onPress={() => router.replace('/(auth)/sign-up')}>
-                        <Text className='text-blue-500'>Sign Up</Text>
+                        <Text className='text-[#76ABAE]'>Sign Up</Text>
                         </TouchableOpacity>
                         </View>
-            </View>
+                        </View>
 
             {/* OTP Input */}
             {showOtp && (
                 <View className='w-80'>
                     <TextInput
-                    className='border-2 w-80 rounded-full border-gray-400 p-2 mt-5'
+                    className='border-2 w-80 rounded-full border-[#76ABAE] p-2 mt-5'
                     placeholder='Enter OTP'
                         keyboardType='numeric'
                         maxLength={6}
@@ -136,6 +138,7 @@ const signIn = () => {
             {loading && <ActivityIndicator size="large" color="#0000ff" style={{ marginTop: 20 }} />}
         </View>
         </View>
+        </ScrollView>
     );
 };
 

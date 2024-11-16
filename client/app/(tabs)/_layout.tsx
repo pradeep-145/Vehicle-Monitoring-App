@@ -17,12 +17,13 @@ export default function TabLayout() {
           tabBarActiveTintColor: Colors['light'].tint,
           headerShown: false,
           tabBarStyle: {
-            backgroundColor: '#000000',
-            height: 50,
-            borderRadius: 50,
-            margin: 5,
-            padding: 10,
+            backgroundColor: '#31363F',
+            height: 60,
+            // borderRadius: 5,
+            borderTopWidth: 2,
+            borderColor: '#76ABAE',
             position: 'absolute',
+            width:'100%'
           },
           tabBarLabelStyle: {
             color: Colors['light'].text, // Set text color from Colors.ts
