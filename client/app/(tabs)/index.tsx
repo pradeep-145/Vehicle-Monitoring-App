@@ -86,6 +86,7 @@ const index=()=> {
         </View>
       ) : (
         <Text>No vehicle selected</Text>
+        
       )}
       </View>
 

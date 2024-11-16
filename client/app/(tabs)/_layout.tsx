@@ -4,27 +4,28 @@ import { View, KeyboardAvoidingView, Platform } from 'react-native';
 import { VehicleProvider } from '@/context/VehicleContext';
 import { TabBarIcon } from '@/components/navigation/TabBarIcon';
 import { Colors } from '@/constants/Colors';
-import { useColorScheme } from '@/hooks/useColorScheme';
 
 export default function TabLayout() {
-  const colorScheme = useColorScheme();
 
   return (
     <KeyboardAvoidingView
-      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-      style={{ flex: 1 }}
+      behavior={Platform.OS === 'android' ? 'padding' : 'height'}
+      style={{ flex:1 }}
     >
       <Tabs
         screenOptions={{
-          tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
+          tabBarActiveTintColor: Colors['light'].tint,
           headerShown: false,
           tabBarStyle: {
             backgroundColor: '#000000',
-            height: 70,
+            height: 50,
             borderRadius: 50,
             margin: 5,
             padding: 10,
             position: 'absolute',
+          },
+          tabBarLabelStyle: {
+            color: Colors['light'].text, // Set text color from Colors.ts
           },
         }}
       >
