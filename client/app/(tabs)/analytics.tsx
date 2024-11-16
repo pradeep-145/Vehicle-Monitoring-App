@@ -45,8 +45,8 @@ const Analytics = () => {
           style={styles.picker}
           dropdownIconColor="#eab308"
         >
-          <Picker.Item label="Fuel" value={1} />
-          <Picker.Item label="Speed" value={2} />
+          <Picker.Item label="Fuel" value={1} color='#AA831C' />
+          <Picker.Item label="Speed" value={2} color='#AA831C' />
         </Picker>
       </View>
 
@@ -76,13 +76,15 @@ const Analytics = () => {
 
 const styles = StyleSheet.create({
   pickerWrapper: {
-    width: '100%',
-    backgroundColor: 'black', // Black background
-    borderRadius: 5, // Rounded borders
+    width: '50%',
+    backgroundColor: '#333531', // Black background
+    borderRadius: 20, // Rounded borders
     borderWidth: 2, // Yellow border thickness
     borderColor: '#eab308', // Yellow border color
     overflow: 'hidden', // Ensures rounded corners apply properly
     marginBottom: 20,
+    marginTop:20,
+    
   },
   picker: {
     color: '#eab308', // Text color for options

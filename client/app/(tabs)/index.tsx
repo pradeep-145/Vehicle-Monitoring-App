@@ -17,9 +17,7 @@ const index=()=> {
   });
   
   return (
-    
       <ScrollView className='mt-16' contentContainerStyle={{paddingBottom:500,paddingHorizontal:20}}>
-
        {
             selectedVehicle&&<Text className='text-center font-bold text-xl bg-[#AA831C] rounded-xl w-32 ml-24 mb-4 p-1'>{selectedVehicle.name}</Text>
        }
@@ -46,7 +44,7 @@ const index=()=> {
         <Text className='text-xl text-[#AA831C] border-2 border-[#AA831C] rounded-lg w-40 text-center font-bold p-1 mb-4'>Fuel Level</Text>
 
       {selectedVehicle ? (
-        <View className='bg-[#AA831C] rounded-lg font-bold p-1 text-md w-40' >
+        <View className='bg-[#3C3C3C] border-2 border-[#AA831C] rounded-lg font-bold p-1 text-md w-40' >
         <Text> {selectedVehicle.id} </Text>
         <Text>1</Text>
         <Text>1</Text>
@@ -62,7 +60,7 @@ const index=()=> {
         <Text className='text-xl text-[#AA831C] border-2 border-[#AA831C] rounded-lg w-40 text-center font-bold p-1 mb-4'>Speed</Text>
 
       {selectedVehicle ? (
-        <View className='bg-[#AA831C] rounded-lg font-bold p-1 text-md w-40' >
+        <View className='bg-[#3C3C3C] border-2 border-[#AA831C] rounded-lg font-bold p-1 text-md w-40' >
         <Text> {selectedVehicle.id} </Text>
         <Text>1</Text>
         <Text>1</Text>
@@ -78,7 +76,7 @@ const index=()=> {
         <Text className='text-xl text-[#AA831C] border-2 border-[#AA831C] rounded-lg w-40 text-center font-bold p-1 mb-4'>Engine Status</Text>
 
       {selectedVehicle ? (
-        <View className='bg-[#AA831C] rounded-lg font-bold p-1 text-md w-40' >
+        <View className='bg-[#3C3C3C] border-2 border-[#AA831C] rounded-lg font-bold p-1 text-md w-40' >
         <Text> {selectedVehicle.id} </Text>
         <Text>1</Text>
         <Text>1</Text>
@@ -95,8 +93,8 @@ const index=()=> {
         <Text className='text-xl text-[#AA831C] border-2 border-[#AA831C] rounded-lg w-40 text-center font-bold p-1 mb-4'>Gear number</Text>
 
       {selectedVehicle ? (
-        <View className='bg-[#AA831C] rounded-lg font-bold p-1 text-md w-40' >
-        <Text> {selectedVehicle.id} </Text>
+        <View className='bg-[#3C3C3C] border-2 border-[#AA831C] rounded-lg font-bold p-1 text-md w-40' >
+        <Text>{selectedVehicle.id} </Text>
         <Text>1</Text>
         <Text>1</Text>
         <Text>1</Text>

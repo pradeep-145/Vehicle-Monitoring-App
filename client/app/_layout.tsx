@@ -28,7 +28,7 @@ export default function RootLayout() {
     ...DarkTheme, 
     colors: {
       ...DarkTheme.colors, 
-      background: '#121212', 
+      background: '#2c2f32', 
       text: '#FFFFFF', 
     },
   };
