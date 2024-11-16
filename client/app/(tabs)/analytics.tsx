@@ -26,7 +26,7 @@ const Analytics = () => {
     >
       {/* Selected Vehicle Details */}
       {selectedVehicle && (
-        <View className="flex-1 h-80 border-2 border-yellow-500 rounded-lg w-full items-center justify-center mb-4">
+        <View className="flex-1 h-80 border-2 bg-[#3C3C3C] border-yellow-500 rounded-lg w-full items-center justify-center mb-4">
           <Text className="text-lg font-bold mb-2 text-yellow-500">
             Driver Details
           </Text>
@@ -77,7 +77,7 @@ const Analytics = () => {
 const styles = StyleSheet.create({
   pickerWrapper: {
     width: '50%',
-    backgroundColor: '#333531', // Black background
+    backgroundColor: '#3C3C3C', // Black background
     borderRadius: 20, // Rounded borders
     borderWidth: 2, // Yellow border thickness
     borderColor: '#eab308', // Yellow border color
