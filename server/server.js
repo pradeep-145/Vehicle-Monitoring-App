@@ -1,59 +1,77 @@
 const express = require('express');
 const cors = require('cors');
 const WebSocket = require('ws');
+const mqtt = require('mqtt');
+
 const app = express();
-const authRoute = require('./routes/auth');
-const protectedRoute = require('./routes/protected');
-const { default: axios } = require('axios');
-app.use(cors());
-app.use(express.json());
 const port = 3000;
 
-const ws=new WebSocket('wss://57fcccb2dd144715b331185b6c4931be.s1.eu.hivemq.cloud:8884/mqtt')
-let dataBuffer=[]
+// Enable CORS and JSON middleware
+app.use(cors());
+app.use(express.json());
 
-ws.on('message',(message)=>{
-    const data=JSON.parse(message.toString())   
-    dataBuffer.push(
-        {
-            speed:data.speed,
-            fuel:data.fuel,
-            engineStatus:data.engineStatus,
-            gear:data.gear,
-        }
-    )
-    console.log(dataBuffer)
-}
-)
+// MQTT broker details
+const brokerUrl = 'mqtt://broker.hivemq.com';
+const topic = 'Pleasure/GPS';
+const gps='Pleasure/GPS';
 
+// Connect to the broker
+const mqttClient = mqtt.connect(brokerUrl, {
+  clientId: `client_${Math.random().toString(16).substr(2, 8)}`, // Unique client ID
+});
 
+// WebSocket server
+const wss = new WebSocket.Server({ port: 8080 });
+let clients = [];
 
-const saveToDataBase=()=>{
-    const dataToStore=[...dataBuffer]
-    if(dataBuffer.length>0){
-        console.log('Saving to database')
-        dataBuffer=[]
+// Add WebSocket client connections
+wss.on('connection', (ws) => {
+  console.log('New WebSocket client connected');
+  clients.push(ws);
+
+  // Remove client on disconnect
+  ws.on('close', () => {
+    console.log('Client disconnected');
+    clients = clients.filter((client) => client !== ws);
+  });
+});
+
+// Connect to MQTT broker
+mqttClient.on('connect', () => {
+  console.log('Connected to MQTT broker!');
+
+  // Subscribe to the topic
+  mqttClient.subscribe(topic, (err) => {
+    if (err) {
+      console.error('Failed to subscribe:', err);
+    } else {
+      console.log(`Subscribed to topic: ${topic}`);
     }
+  });
+});
 
 
-}
+// Handle incoming MQTT messages
+mqttClient.on('message', (topic, message) => {
+  const data = message.toString();
+  console.log(`Message received on topic '${topic}': ${data}`);
 
+  // Broadcast data to all WebSocket clients
+  clients.forEach((client) => {
+    if (client.readyState === WebSocket.OPEN) {
+      client.send(data);
+    }
+  });
+});
 
-setInterval(saveToDataBase,60000)
+// Handle MQTT errors
+mqttClient.on('error', (err) => {
+  console.error('MQTT Connection error:', err);
+});
 
-
-ws.on('error',(error)=>{
-    console.log(error)
-}
-)
-
-
-
-app.use('/auth',authRoute)
-app.use('/protected',protectedRoute)
-
-
+// Express server
 app.listen(port, () => {
-    console.log(`Server running on http://localhost:${port}`);
-    }
-);
+  console.log(`Express server running on http://localhost:${port}`);
+});
+
+console.log('WebSocket server running on ws://localhost:8080');
