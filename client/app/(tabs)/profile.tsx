@@ -30,67 +30,71 @@ const Profile = () => {
     <SafeAreaView className="flex w-full flex-1 p-4">
       <View className="flex flex-row justify-between">
         <TouchableOpacity onPress={() => router.replace('/(auth)/sign-in')}>
-          <Text className="font-bold text-md bg-gray-300 p-2 rounded-xl">Logout</Text>
+          <Text className="font-bold text-md bg-[#AA831C] p-2 rounded-xl">Logout</Text>
         </TouchableOpacity>
         <TouchableOpacity onPress={handleAddVehicle}>
-          <Text className="font-bold text-md bg-gray-300 p-2 rounded-xl">Add Vehicle +</Text>
+          <Text className="font-bold text-md bg-[#AA831C] p-2 rounded-xl">Add Vehicle +</Text>
         </TouchableOpacity>
       </View>
 
-      <Text className="font-bold text-xl mt-5 mb-3">Your Vehicles</Text>
+      <Text className="font-bold text-xl mt-5 mb-5 text-[#AA831C]">My Vehicles</Text>
       <ScrollView>
-        <View className="gap-3">
+        <View className="gap-5">
           {vehicles.map(vehicle => (
             <TouchableOpacity
               key={vehicle.id}
-              className={`rounded-xl h-12 flex items-center justify-center text-white ${selectedVehicle?.id === vehicle.id ? 'bg-yellow-500' : 'bg-blue-300'}`}
+              className={`rounded-xl h-12 flex items-center justify-center ${selectedVehicle?.id === vehicle.id ? 'bg-[#AA831C] text-black' : 'bg-transparent border-2 border-yellow-500'}`}
               onPress={() => {
                 setSelectedVehicle(vehicle);
                 router.replace(`/(tabs)`);
               }}
             >
-              <Text>{vehicle.name}</Text>
+              <Text className={`text-yellow-500 ${selectedVehicle?.id === vehicle.id ? 'text-black' :'text-yellow-500'}`}>{vehicle.name}</Text>
             </TouchableOpacity>
           ))}
         </View>
 
         {showAddVehicleForm && (
-          <View className="mt-5 bg-white p-5 rounded-xl shadow">
-            <Text className="text-xl font-bold text-center mb-4">Add New Vehicle</Text>
+          <View className="mt-10 border-2 border-[#AA831C] p-5 rounded-xl shadow ">
+            <Text className="text-xl font-bold text-center mb-4 text-[#AA831C]">Add New Vehicle</Text>
 
             <TextInput
-              className="border border-gray-300 rounded-lg p-2 mb-3"
+              className="border border-[#AA831C] text-white rounded-lg p-2 mb-3"
               placeholder="Vehicle Name"
+              placeholderTextColor="#94a3b8"
               value={newVehicle.name}
               onChangeText={(text) => setNewVehicle({ ...newVehicle, name: text })}
             />
 
             <TextInput
-              className="border border-gray-300 rounded-lg p-2 mb-3"
+              className="border border-[#AA831C] text-gray-400 rounded-lg p-2 mb-3"
               placeholder="Vehicle Number"
+              placeholderTextColor="#94a3b8"
               value={newVehicle.number}
               onChangeText={(text) => setNewVehicle({ ...newVehicle, number: text })}
             />
 
             <TextInput
-              className="border border-gray-300 rounded-lg p-2 mb-3"
+              className="border border-[#AA831C] text-gray-400 rounded-lg p-2 mb-3"
               placeholder="Vehicle Type"
+              placeholderTextColor="#94a3b8"
               value={newVehicle.type}
               onChangeText={(text) => setNewVehicle({ ...newVehicle, type: text })}
             />
 
             <TextInput
-              className="border border-gray-300 rounded-lg p-2 mb-3"
+              className="border border-[#AA831C] text-gray-400 rounded-lg p-2 mb-3"
               placeholder="Vehicle Model"
+              placeholderTextColor="#94a3b8"
               value={newVehicle.model}
               onChangeText={(text) => setNewVehicle({ ...newVehicle, model: text })}
             />
 
             <TouchableOpacity
-              className="bg-yellow-500 rounded-xl p-3 mt-3 items-center"
+              className="bg-[#AA831C] rounded-xl p-3 mt-3 items-center"
               onPress={handleSaveVehicle}
             >
-              <Text className="text-white">Save Vehicle</Text>
+              <Text className="text-black">Save Vehicle</Text>
             </TouchableOpacity>
           </View>
         )}
