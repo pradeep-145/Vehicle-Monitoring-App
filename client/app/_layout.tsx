@@ -20,6 +20,9 @@ export default function RootLayout() {
   if (!loaded) {
     return null;
   }
+  const theme ={
+     
+  }
   return (
     <ThemeProvider value={DarkTheme}>
       <VehicleProvider>

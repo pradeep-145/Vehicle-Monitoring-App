@@ -21,7 +21,7 @@ const index=()=> {
       <ScrollView className='mt-16' contentContainerStyle={{paddingBottom:500,paddingHorizontal:20}}>
 
        {
-            selectedVehicle&&<Text className='text-center font-bold text-xl bg-gray-300 rounded-xl w-32 ml-32 mb-4 p-1'>{selectedVehicle.name}</Text>
+            selectedVehicle&&<Text className='text-center font-bold text-xl bg-gray-300 rounded-xl w-32 ml-24 mb-4 p-1'>{selectedVehicle.name}</Text>
        }
       <Text className="text-xl bg-gray-300 rounded-xl w-20 text-center font-bold p-1 mb-4">Map</Text>
       <View className="flex  h-1/3  border-black" style={{
@@ -86,7 +86,7 @@ const index=()=> {
         </View>
       ) : (
         <Text>No vehicle selected</Text>
-        
+
       )}
       </View>
 

@@ -30,26 +30,26 @@ const Profile = () => {
     <SafeAreaView className="flex w-full flex-1 p-4">
       <View className="flex flex-row justify-between">
         <TouchableOpacity onPress={() => router.replace('/(auth)/sign-in')}>
-          <Text className="font-bold text-md bg-gray-300 p-2 rounded-xl">Logout</Text>
+          <Text className="font-bold text-md bg-yellow-500 opacity-80 p-2 rounded-xl">Logout</Text>
         </TouchableOpacity>
         <TouchableOpacity onPress={handleAddVehicle}>
-          <Text className="font-bold text-md bg-gray-300 p-2 rounded-xl">Add Vehicle +</Text>
+          <Text className="font-bold text-md bg-yellow-500 opacity-80 p-2 rounded-xl">Add Vehicle +</Text>
         </TouchableOpacity>
       </View>
 
-      <Text className="font-bold text-xl mt-5 mb-3">Your Vehicles</Text>
+      <Text className="font-bold text-xl mt-5 mb-5 text-yellow-500">My Vehicles</Text>
       <ScrollView>
-        <View className="gap-3">
+        <View className="gap-5">
           {vehicles.map(vehicle => (
             <TouchableOpacity
               key={vehicle.id}
-              className={`rounded-xl h-12 flex items-center justify-center text-white ${selectedVehicle?.id === vehicle.id ? 'bg-yellow-500' : 'bg-blue-300'}`}
+              className={`rounded-xl h-12 flex items-center justify-center ${selectedVehicle?.id === vehicle.id ? 'bg-yellow-500 opacity-90 text-black' : 'bg-transparent border-2 border-yellow-500'}`}
               onPress={() => {
                 setSelectedVehicle(vehicle);
                 router.replace(`/(tabs)`);
               }}
             >
-              <Text>{vehicle.name}</Text>
+              <Text className={`text-yellow-500 ${selectedVehicle?.id === vehicle.id ? 'text-black' :'text-yellow-500'}`}>{vehicle.name}</Text>
             </TouchableOpacity>
           ))}
         </View>
