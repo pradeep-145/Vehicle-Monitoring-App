@@ -6,7 +6,7 @@ const main = () => {
   const router = useRouter(); // Initialize router
   useFocusEffect(() => {
     console.log('Focused');
-    router.replace('/(tabs)/analytics')
+    router.replace('/(tabs)/')
   }
   );
   return (
