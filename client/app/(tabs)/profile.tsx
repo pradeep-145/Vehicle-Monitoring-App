@@ -43,7 +43,7 @@ const Profile = () => {
           {vehicles.map(vehicle => (
             <TouchableOpacity
               key={vehicle.id}
-              className={`rounded-xl h-12 flex items-center justify-center ${selectedVehicle?.id === vehicle.id ? 'bg-[#AA831C] text-black' : 'bg-transparent border-2 border-yellow-500'}`}
+              className={`rounded-xl h-12 flex items-center justify-center ${selectedVehicle?.id === vehicle.id ? 'bg-[#AA831C] text-black' : 'bg-[#3C3C3C] border-2 border-yellow-500'}`}
               onPress={() => {
                 setSelectedVehicle(vehicle);
                 router.replace(`/(tabs)`);
@@ -59,7 +59,7 @@ const Profile = () => {
             <Text className="text-xl font-bold text-center mb-4 text-[#AA831C]">Add New Vehicle</Text>
 
             <TextInput
-              className="border border-[#AA831C] text-white rounded-lg p-2 mb-3"
+              className="border bg-[#3C3C3C] border-[#AA831C] text-white rounded-lg p-2 mb-3"
               placeholder="Vehicle Name"
               placeholderTextColor="#94a3b8"
               value={newVehicle.name}
@@ -67,7 +67,7 @@ const Profile = () => {
             />
 
             <TextInput
-              className="border border-[#AA831C] text-gray-400 rounded-lg p-2 mb-3"
+              className="border bg-[#3C3C3C] border-[#AA831C] text-gray-400 rounded-lg p-2 mb-3"
               placeholder="Vehicle Number"
               placeholderTextColor="#94a3b8"
               value={newVehicle.number}
@@ -75,7 +75,7 @@ const Profile = () => {
             />
 
             <TextInput
-              className="border border-[#AA831C] text-gray-400 rounded-lg p-2 mb-3"
+              className="border bg-[#3C3C3C] border-[#AA831C] text-gray-400 rounded-lg p-2 mb-3"
               placeholder="Vehicle Type"
               placeholderTextColor="#94a3b8"
               value={newVehicle.type}
@@ -83,7 +83,7 @@ const Profile = () => {
             />
 
             <TextInput
-              className="border border-[#AA831C] text-gray-400 rounded-lg p-2 mb-3"
+              className="border bg-[#3C3C3C] border-[#AA831C] text-gray-400 rounded-lg p-2 mb-3"
               placeholder="Vehicle Model"
               placeholderTextColor="#94a3b8"
               value={newVehicle.model}
