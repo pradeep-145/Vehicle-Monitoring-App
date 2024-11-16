@@ -1,21 +1,42 @@
 import { useVehicle } from '@/context/VehicleContext';
-import { useState,useEffect } from 'react';
-import { Text, View } from 'react-native';
+import axios from 'axios';
+import { useEffect, useState } from 'react';
+import { ScrollView, Text, View } from 'react-native';
 import MapView, { MarkerAnimated } from 'react-native-maps';
-import Animated, { useSharedValue, useAnimatedStyle } from 'react-native-reanimated';
-import { ScrollView } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
-
 
 const index=()=> {
   const { selectedVehicle } = useVehicle();
+  const [fuelData, setFuelData] = useState([]);
+  const [data, setData] = useState(null);
   const [location, setLocation] = useState({
     latitude: 11.273340,
     longitude: 77.60632,
     latitudeDelta: 0.01,
     longitudeDelta: 0.01,
   });
+
+    useEffect(() => {
+      // Connect to the WebSocket server
+      const ws = new WebSocket('ws://192.168.101.195:8080');
   
+      // Receive messages from the server
+      ws.onmessage = (event) => {
+        const data=JSON.parse(event.data)
+        console.log('Message from server:',data.data.voltage);
+        setData(data.data); // Parse JSON if data is in JSON format
+      };
+  
+      return () => {
+        ws.close(); // Clean up WebSocket connection on unmount
+      };
+    }, []);
+
+  // axios.get('http://192.168.179.195:3000/protected/data').then((res)=>{
+  //   console.log(res.data)
+  //   setFuelData(res.data)
+
+  // }).catch((err)=>{ console.log(err) } )
+ 
   return (
       <ScrollView className='mt-16' contentContainerStyle={{paddingBottom:500,paddingHorizontal:20}}>
        {
@@ -43,16 +64,12 @@ const index=()=> {
       <View className='flex flex-col'>
         <Text className='text-xl bg-[#3C3C3C] text-[#AA831C] border-2 border-[#AA831C] rounded-lg w-40 text-center font-bold p-1 mb-4'>Fuel Level</Text>
 
-      {selectedVehicle ? (
+      {data ? (
         <View className='bg-[#3C3C3C] border-2 border-[#AA831C] rounded-lg font-bold p-1 text-md w-40' >
-        <Text> {selectedVehicle.id} </Text>
-        <Text>1</Text>
-        <Text>1</Text>
-        <Text>1</Text>
-        <Text>1</Text>
+        <Text> {data.voltage} </Text>
         </View>
       ) : (
-        <Text>No vehicle selected</Text>
+        <Text>No data Recieved yet</Text>
       )}
       </View>
 
