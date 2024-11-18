@@ -12,11 +12,10 @@ const signUp = () => {
     const [otp, setOtp] = useState('');
     const [loading, setLoading] = useState(false);
     const [username, setUsername] = useState('');
-    const API_BASE_URL = 'http://192.168.179.195:3000/auth';
+    const API_BASE_URL = 'http://10.1.76.27:3000/auth';
     const handleSendOtp = async () => {
         if (mobile.length !== 10) {
             Alert.alert('Validation Error', 'Mobile number should be 10 digits');
-
             return;
         }
 
@@ -29,6 +28,7 @@ const signUp = () => {
                 setServerOtp(response.data.otp);
                 setSendOtp(false);
                 setShowOtp(true);
+                console.log(response.data.otp);
                 Alert.alert('OTP Sent', 'Please check your phone for the OTP.');
             }
         } catch (error) {
@@ -40,14 +40,20 @@ const signUp = () => {
     };
     const handleSubmit = async () => {
         // Basic input validation
+        console.log(otp)
         if (mobile.length !== 10) {
             Alert.alert('Invalid Input', 'Mobile number should be of 10 digits');
             return;
         }
 
         try {
-            const response = await axios.post(`${API_BASE_URL}/sign-up`, { mobile, username });
-            if (response.data.message === 'Success') {
+            if(otp !== serverOtp){
+                Alert.alert('Invalid OTP', 'Please enter the correct OTP');
+                return;
+            }
+            
+            const response = await axios.post(`${API_BASE_URL}/register`, { mobile, username });
+            if (response.data.success) {
                 Alert.alert('Success', 'Account created successfully');
                 router.replace('/(auth)/sign-in');
             }
@@ -57,6 +63,7 @@ const signUp = () => {
             Alert.alert('Network Error', 'An error occurred while processing your request.');
         }
     };
+
 
     return (
         <ScrollView>
@@ -94,32 +101,32 @@ const signUp = () => {
                         
                         <Text className='text-black'>Send OTP</Text>
                     </TouchableOpacity>
-                    <View className='flex flex-row justify-center mt-4'>
-                    <Text className='text-sm text-center text-gray-500'>Already have an account? </Text>
-                    <TouchableOpacity onPress={() => router.replace('/(auth)/sign-in')}>
-                        <Text className='text-[#76ABAE]'>Sign In</Text>
-                        </TouchableOpacity>
-                        </View>
-                </View>
                 {showOtp && (
                     <View className='w-80'>
                         <TextInput
                     className='border-2 w-80 rounded-full border-[#76ABAE] p-2 mt-5'
                     placeholder='Enter OTP'
                             keyboardType='numeric'
-                            maxLength={4}
+                            maxLength={6}
                             value={otp}
                             onChangeText={setOtp}
                         />
                         <TouchableOpacity
-                            className='bg-blue-500 absolute rounded-lg p-2 items-center justify-center mt-[26px] right-2 w-20'
+                            className='bg-[#76ABAE] absolute rounded-full p-2 items-center justify-center mt-[25px] right-2 w-24'
                             onPress={handleSubmit}
                             disabled={loading}
                         >
-                            <Text className='text-white'>Sign In</Text>
+                            <Text className='text-black'>Sign In</Text>
                         </TouchableOpacity>
                     </View>
                 )}
+                        <View className='flex flex-row justify-center mt-4'>
+                        <Text className='text-sm text-center text-gray-500'>Already have an account? </Text>
+                        <TouchableOpacity onPress={() => router.replace('/(auth)/sign-in')}>
+                            <Text className='text-[#76ABAE]'>Sign In</Text>
+                            </TouchableOpacity>
+                            </View>
+                    </View>
             </View>
             </View>
         </ScrollView>

@@ -2,7 +2,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 import { useRouter } from 'expo-router'; // Fixed import for router in Expo
 import React, { useState } from 'react';
-import { Alert, ScrollView, Text, TextInput, TouchableOpacity, View,ActivityIndicator } from 'react-native';
+import { ActivityIndicator, Alert, ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native';
 
 const signIn = () => {
     const [sendOtp, setSendOtp] = useState(true);
@@ -13,7 +13,7 @@ const signIn = () => {
     const [loading, setLoading] = useState(false); // Loading state for feedback
     const router = useRouter(); // Fix for Expo Router
 
-    const API_BASE_URL = 'http://192.168.179.195:3000/auth';
+    const API_BASE_URL = 'http://10.1.76.27:3000/auth';
 
     // Function to handle sending OTP
     const handleSendOtp = async () => {
@@ -25,7 +25,7 @@ const signIn = () => {
         setLoading(true);
         try {
             const response = await axios.post(`${API_BASE_URL}/send-otp`, {
-                params: { mobile },
+               mobile
             });
             if (response.data.success) {
                 setServerOtp(response.data.otp); 
@@ -59,17 +59,22 @@ const signIn = () => {
 
         setLoading(true);
         try {
-            const response = await axios.post(`${API_BASE_URL}/sign-in`, { mobile });
-            if (response.data.message === 'Success') {
-                await AsyncStorage.setItem('token', response.data.token); // Store token using AsyncStorage
+            const response = await axios.post(`${API_BASE_URL}/login`, { mobile });
+            if (response.data.success) {
+                await AsyncStorage.setItem('token', response.data.token); 
+        
+                // Await AsyncStorage.getItem to properly log the value
+                const token = await AsyncStorage.getItem('token');
+                console.log(token); // Logs the token value
+        
                 router.replace('/choose-vehicle');
             }
         } catch (error) {
-            
             Alert.alert('Error', 'Failed to sign in. Please try again.');
         } finally {
             setLoading(false);
         }
+        
     };
 
     return (

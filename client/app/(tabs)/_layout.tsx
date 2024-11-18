@@ -1,4 +1,4 @@
-import { Tabs } from 'expo-router';
+import { router, Tabs } from 'expo-router';
 import React from 'react';
 import { View, KeyboardAvoidingView, Platform } from 'react-native';
 import { VehicleProvider } from '@/context/VehicleContext';
@@ -50,9 +50,12 @@ export default function TabLayout() {
         />
         <Tabs.Screen
           name="profile"
+          
           options={{
             title: "",
+            
             tabBarIcon: ({ color, focused }) => (
+             
               <TabBarIcon name={focused ? 'person' : 'person-outline'} color={color} />
             ),
           }}
