@@ -48,8 +48,8 @@ router.post('/send-otp', async (req, res) => {
   try {
     const otp = Array.from({ length: 6 }, () => Math.floor(Math.random() * 10)).join('');
     console.log(`OTP for ${mobile}: ${otp}`);
-    // axios.get(`https://www.fast2sms.com/dev/bulkV2?authorization=j2o3T8JgFRqz0WhGdpLfemKMbVEUBn4xAsv7wZrlPIcDXNO51Q7gr6U9JAiNShp1sQ4x3fzOwaWtEBbC&route=otp&variables_values=${otp}&flash=0&numbers=${mobile}`).then(response=>res.json({success:true}))
-    // .catch(error=>console.log(error))
+    axios.get(`https://www.fast2sms.com/dev/bulkV2?authorization=j2o3T8JgFRqz0WhGdpLfemKMbVEUBn4xAsv7wZrlPIcDXNO51Q7gr6U9JAiNShp1sQ4x3fzOwaWtEBbC&route=otp&variables_values=${otp}&flash=0&numbers=${mobile}`).then(response=>res.json({success:true}))
+    .catch(error=>console.log(error))
     res.json({ success: true ,otp:otp});
   } catch (error) {
     console.error('Error sending OTP:', error);
