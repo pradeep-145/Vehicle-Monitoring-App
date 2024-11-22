@@ -22,7 +22,7 @@ const chooseVehicle = () => {
 
   const [vehicles, setVehicles] = useState<any>([]);
 
-  const apiUrl = 'http://10.1.76.27:3000';
+  const apiUrl = 'http://192.168.107.195:3000';
 
   const fetchDetails = async () => {
     try {
@@ -79,9 +79,9 @@ const handleSet=(vehicle: { id: number; name: string; })=>{
           <Text style={styles.addVehicleButton}>Add Vehicle +</Text>
         </TouchableOpacity>
       <View className="gap-5 flex items-center justify-center">
-          {vehicles.map(vehicle => (
+          {vehicles.map((vehicle,index) => (
             <TouchableOpacity
-              key={vehicle.id}
+              key={index}
               className={`rounded-xl w-60 h-12 flex items-center justify-center ${selectedVehicle?.id === vehicle.id ? 'bg-[#76ABAE] text-black' : 'bg-[#243642] border-2 border-[#76ABAE]'}`}
               onPress={() => {
                 setSelectedVehicle(vehicle);

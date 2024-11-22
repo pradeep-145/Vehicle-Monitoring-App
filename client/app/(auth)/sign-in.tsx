@@ -13,7 +13,7 @@ const signIn = () => {
     const [loading, setLoading] = useState(false); // Loading state for feedback
     const router = useRouter(); // Fix for Expo Router
 
-    const API_BASE_URL = 'http://10.1.76.27:3000/auth';
+    const API_BASE_URL = 'http://192.168.107.195:3000/auth';
 
     // Function to handle sending OTP
     const handleSendOtp = async () => {

@@ -22,7 +22,7 @@ const Profile = () => {
 
   const [vehicles, setVehicles] = useState<any>([]);
 
-  const apiUrl = 'http://10.1.76.27:3000';
+  const apiUrl = 'http://192.168.107.195:3000';
 
   const fetchDetails = async () => {
     try {
@@ -88,9 +88,9 @@ const Profile = () => {
       <Text style={styles.sectionTitle}>MY VEHICLES</Text>
 
       <ScrollView contentContainerStyle={styles.scrollView}>
-        {vehicles.map((vehicle) => (
+        {vehicles.map((vehicle,index) => (
           <TouchableOpacity
-            key={vehicle.id}
+            key={index}
             style={[
               styles.vehicleButton,
               selectedVehicle?.id === vehicle.id ? styles.selectedVehicle : styles.unselectedVehicle,

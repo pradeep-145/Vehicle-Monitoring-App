@@ -33,7 +33,7 @@ db.run(
 
 // Connect to the MQTT broker
 const mqttClient = mqtt.connect(brokerUrl, {
-  clientId: `qpperzPGO3`, // Unique client ID
+  clientId: `qpperzPGO3`, 
 });
 
 // WebSocket server setup

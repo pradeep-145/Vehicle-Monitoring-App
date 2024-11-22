@@ -12,7 +12,7 @@ const signUp = () => {
     const [otp, setOtp] = useState('');
     const [loading, setLoading] = useState(false);
     const [username, setUsername] = useState('');
-    const API_BASE_URL = 'http://10.1.76.27:3000/auth';
+    const API_BASE_URL = 'http://192.168.107.195:3000/auth';
     const handleSendOtp = async () => {
         if (mobile.length !== 10) {
             Alert.alert('Validation Error', 'Mobile number should be 10 digits');

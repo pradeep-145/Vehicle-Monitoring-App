@@ -35,7 +35,7 @@ const Analytics: React.FC = () => {
   const fetchData = async () => {
     try {
       const token = await AsyncStorage.getItem('token'); // Retrieve token
-      const response = await axios.get<AnalyticsData[]>('http://10.1.76.27:3000/get-analytics-data', {
+      const response = await axios.get<AnalyticsData[]>('http://192.168.107.195:3000/get-analytics-data', {
         headers: {
           Authorization: `Bearer ${token}`, // Pass token in headers
         },

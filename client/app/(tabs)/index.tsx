@@ -14,7 +14,7 @@ const Index = () => {
   });
 
   useEffect(() => {
-    const ws = new WebSocket('ws://10.1.76.27:8080');
+    const ws = new WebSocket('ws://10.1.76.27ip:8080');
     ws.onmessage = (event) => {
       const receivedData = JSON.parse(event.data);
       console.log('Message from server:', receivedData.data.voltage);
