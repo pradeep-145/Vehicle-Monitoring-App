@@ -1,27 +1,3 @@
-<<<<<<< HEAD
-import{ View, Text, TouchableOpacity } from 'react-native'
-import React from 'react'
-import { SafeAreaView } from 'react-native-safe-area-context'
-import { Link, NavigationProp } from '@react-navigation/native';
-import { router } from 'expo-router';
-import { useVehicle } from '@/context/VehicleContext';
-
-const chooseVehicle = ({ navigation }: { navigation: NavigationProp<any> }) => {
-  const {setSelectedVehicle}=useVehicle()
-  const vehicles=[{
-    id:1,
-    name:"vehicle 1"
-  },
-  {
-    id:2,
-    name:"vehicle 2"
-  },
-  {
-    id:3,
-    name:"vehicle 3"
-  }
-]
-=======
 import React, { useEffect, useState } from 'react';
 import {
   ScrollView,
@@ -97,7 +73,6 @@ const handleSet=(vehicle: { id: number; name: string; })=>{
     router.replace('/(tabs)')
   }, 1000);
 }
->>>>>>> 5bcf6b6841ab7877804989162904617787b167ef
   return (
     <SafeAreaView className=' p-9 flex-1 gap-5 flex-col justify-center '>
        <TouchableOpacity onPress={handleAddVehicle}>
