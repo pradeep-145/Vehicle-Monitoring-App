@@ -1,65 +1,122 @@
-import { View, Text, TouchableOpacity, TextInput, ScrollView } from 'react-native';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import {
+  ScrollView,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+  Dimensions,
+  StyleSheet,
+} from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import axios from 'axios';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { router } from 'expo-router';
 import { useVehicle } from '@/context/VehicleContext';
 
 const Profile = () => {
   const { selectedVehicle, setSelectedVehicle } = useVehicle();
-
-  const vehicles = [
-    { id: 1, name: "Vehicle 1" },
-    { id: 2, name: "Vehicle 2" },
-    { id: 3, name: "Vehicle 3" },
-  ];
-
+  const [userData, setUserData] = useState<any>({});
   const [showAddVehicleForm, setShowAddVehicleForm] = useState(false);
   const [newVehicle, setNewVehicle] = useState({ name: '', number: '', type: '', model: '' });
+
+  const [vehicles, setVehicles] = useState<any>([]);
+
+  const apiUrl = 'http://192.168.107.195:3000';
+
+  const fetchDetails = async () => {
+    try {
+      const token = await AsyncStorage.getItem('token');
+      const response = await axios.get(`${apiUrl}/protected/`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      setUserData(response.data.users);
+      setVehicles(response.data.vehicles);
+    } catch (err) {
+      console.log('Error fetching user details:', err);
+    }
+  };
+
+  useEffect(() => {
+    fetchDetails();
+  }, []);
 
   const handleAddVehicle = () => {
     setShowAddVehicleForm(true);
   };
 
-  const handleSaveVehicle = () => {
-    // Code to save the new vehicle
-    setShowAddVehicleForm(false);
+  const handleSaveVehicle =async  () => {
+    console.log('New Vehicle:', newVehicle);
+    const response =await axios.post(`${apiUrl}/protected/add-vehicle`, newVehicle,{
+      headers: {
+        Authorization: `Bearer ${await AsyncStorage.getItem('token')}`,
+      },
+    });
     setNewVehicle({ name: '', number: '', type: '', model: '' });
+    if(response.data.success){
+      setVehicles([...vehicles, response.data.vehicle]);
+      setShowAddVehicleForm(false);
+    }
+    else {
+      console.log('Error saving vehicle:', response.data.error);
+    }
+  
+    // Save the vehicle logic can be implemented here
   };
 
   return (
-    <SafeAreaView className="flex w-full flex-1 p-4">
-      <View className="flex flex-row justify-between">
-        <TouchableOpacity onPress={() => router.replace('/(auth)/sign-in')}>
-          <Text className="font-bold text-md bg-[#76ABAE] p-2 rounded-xl">Logout</Text>
+    <SafeAreaView style={styles.safeArea}>
+      <View style={styles.header}>
+        <TouchableOpacity
+          onPress={() => {
+            AsyncStorage.removeItem('token');
+            router.replace('/(auth)/sign-in');
+          }}
+        >
+          <Text style={styles.logoutButton}>Logout</Text>
         </TouchableOpacity>
         <TouchableOpacity onPress={handleAddVehicle}>
-          <Text className="font-bold text-md bg-[#76ABAE] p-2 rounded-xl">Add Vehicle +</Text>
+          <Text style={styles.addVehicleButton}>Add Vehicle +</Text>
         </TouchableOpacity>
       </View>
 
-      <Text className="font-bold text-xl mt-6 underline mb-5 text-[#76ABAE]">MY VEHICLES</Text>
-      <ScrollView>
-        <View className="gap-5 flex items-center justify-center">
-          {vehicles.map(vehicle => (
-            <TouchableOpacity
-              key={vehicle.id}
-              className={`rounded-xl w-60 h-12 flex items-center justify-center ${selectedVehicle?.id === vehicle.id ? 'bg-[#76ABAE] text-black' : 'bg-[#243642] border-2 border-[#76ABAE]'}`}
-              onPress={() => {
-                setSelectedVehicle(vehicle);
-                router.replace(`/(tabs)`);
-              }}
+      <Text style={styles.userName}>{userData.name}</Text>
+      <Text style={styles.userMobile}>{userData.mobile}</Text>
+
+      <Text style={styles.sectionTitle}>MY VEHICLES</Text>
+
+      <ScrollView contentContainerStyle={styles.scrollView}>
+        {vehicles.map((vehicle,index) => (
+          <TouchableOpacity
+            key={index}
+            style={[
+              styles.vehicleButton,
+              selectedVehicle?.id === vehicle.id ? styles.selectedVehicle : styles.unselectedVehicle,
+            ]}
+            onPress={() => {
+              setSelectedVehicle(vehicle);
+              router.replace(`/(tabs)`);
+            }}
+          >
+            <Text
+              style={[
+                styles.vehicleText,
+                selectedVehicle?.id === vehicle.id ? styles.selectedText : styles.unselectedText,
+              ]}
             >
-              <Text className={`text-[#76ABAE] ${selectedVehicle?.id === vehicle.id ? 'text-black' :'text-[#76ABAE]'}`}>{vehicle.name}</Text>
-            </TouchableOpacity>
-          ))}
-        </View>
+              {vehicle.name}
+            </Text>
+          </TouchableOpacity>
+        ))}
 
         {showAddVehicleForm && (
-          <View className="mt-10 border-2 border-[#76ABAE] p-5 rounded-xl shadow ">
-            <Text className="text-xl font-bold text-center mb-4 text-[#76ABAE]">Add New Vehicle</Text>
+          <View style={styles.addVehicleForm}>
+            <Text style={styles.addVehicleTitle}>Add New Vehicle</Text>
 
             <TextInput
-              className="border bg-[#243642] border-[#76ABAE] text-white rounded-lg p-2 mb-3"
+              style={styles.input}
               placeholder="Vehicle Name"
               placeholderTextColor="#94a3b8"
               value={newVehicle.name}
@@ -67,7 +124,7 @@ const Profile = () => {
             />
 
             <TextInput
-              className="border bg-[#243642] border-[#76ABAE] text-gray-400 rounded-lg p-2 mb-3"
+              style={styles.input}
               placeholder="Vehicle Number"
               placeholderTextColor="#94a3b8"
               value={newVehicle.number}
@@ -75,7 +132,7 @@ const Profile = () => {
             />
 
             <TextInput
-              className="border bg-[#243642] border-[#76ABAE] text-gray-400 rounded-lg p-2 mb-3"
+              style={styles.input}
               placeholder="Vehicle Type"
               placeholderTextColor="#94a3b8"
               value={newVehicle.type}
@@ -83,18 +140,15 @@ const Profile = () => {
             />
 
             <TextInput
-              className="border bg-[#243642] border-[#76ABAE] text-gray-400 rounded-lg p-2 mb-3"
+              style={styles.input}
               placeholder="Vehicle Model"
               placeholderTextColor="#94a3b8"
               value={newVehicle.model}
               onChangeText={(text) => setNewVehicle({ ...newVehicle, model: text })}
             />
 
-            <TouchableOpacity
-              className="bg-[#76ABAE] rounded-xl p-3 mt-3 items-center"
-              onPress={handleSaveVehicle}
-            >
-              <Text className="text-black">Save Vehicle</Text>
+            <TouchableOpacity style={styles.saveButton} onPress={handleSaveVehicle}>
+              <Text style={styles.saveButtonText}>Save Vehicle</Text>
             </TouchableOpacity>
           </View>
         )}
@@ -102,5 +156,116 @@ const Profile = () => {
     </SafeAreaView>
   );
 };
+
+const screenWidth = Dimensions.get('window').width;
+
+const styles = StyleSheet.create({
+  safeArea: {
+    flex: 1,
+    paddingHorizontal: screenWidth * 0.05,
+  },
+  header: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: 20,
+  },
+  logoutButton: {
+    fontWeight: 'bold',
+    fontSize: 16,
+    backgroundColor: '#76ABAE',
+    padding: 10,
+    borderRadius: 10,
+    textAlign: 'center',
+  },
+  addVehicleButton: {
+    fontWeight: 'bold',
+    fontSize: 16,
+    backgroundColor: '#76ABAE',
+    padding: 10,
+    borderRadius: 10,
+    textAlign: 'center',
+  },
+  userName: {
+    fontWeight: 'bold',
+    fontSize: 18,
+    marginBottom: 5,
+    color: '#76ABAE',
+  },
+  userMobile: {
+    fontWeight: 'bold',
+    fontSize: 18,
+    marginBottom: 20,
+    color: '#76ABAE',
+  },
+  sectionTitle: {
+    fontWeight: 'bold',
+    fontSize: 20,
+    textDecorationLine: 'underline',
+    color: '#76ABAE',
+    marginBottom: 10,
+  },
+  scrollView: {
+    gap: 10,
+    alignItems: 'center',
+  },
+  vehicleButton: {
+    width: screenWidth * 0.8,
+    height: 50,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 10,
+  },
+  selectedVehicle: {
+    backgroundColor: '#76ABAE',
+  },
+  unselectedVehicle: {
+    backgroundColor: '#243642',
+    borderWidth: 2,
+    borderColor: '#76ABAE',
+  },
+  vehicleText: {
+    fontSize: 16,
+  },
+  selectedText: {
+    color: '#000',
+  },
+  unselectedText: {
+    color: '#76ABAE',
+  },
+  addVehicleForm: {
+    width: '100%',
+    borderWidth: 2,
+    borderColor: '#76ABAE',
+    padding: 20,
+    borderRadius: 10,
+    marginTop: 20,
+  },
+  addVehicleTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    marginBottom: 10,
+    color: '#76ABAE',
+  },
+  input: {
+    borderWidth: 1,
+    borderColor: '#76ABAE',
+    backgroundColor: '#243642',
+    color: '#fff',
+    borderRadius: 8,
+    padding: 10,
+    marginBottom: 10,
+  },
+  saveButton: {
+    backgroundColor: '#76ABAE',
+    padding: 15,
+    borderRadius: 10,
+    alignItems: 'center',
+  },
+  saveButtonText: {
+    color: '#000',
+    fontWeight: 'bold',
+  },
+});
 
 export default Profile;

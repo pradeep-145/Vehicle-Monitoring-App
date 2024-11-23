@@ -4,7 +4,6 @@ import { VehicleProvider } from '@/context/VehicleContext';
 
 const Layout = () => {
   return (
-    <VehicleProvider>
       <Stack>
         <Stack.Screen name="welcome" options={{ headerShown: false }} />
         <Stack.Screen name="sign-in" options={{ headerShown: false }} />
@@ -13,8 +12,8 @@ const Layout = () => {
         <Stack.Screen name="choose-vehicle" options={{ headerShown: false }} />
       </Stack>
       
-    </VehicleProvider>
   );
+  
 };
 
 export default Layout;

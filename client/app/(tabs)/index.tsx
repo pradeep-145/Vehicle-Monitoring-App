@@ -1,12 +1,10 @@
-import { useVehicle } from '@/context/VehicleContext';
-import axios from 'axios';
-import { useEffect, useState } from 'react';
-import { ScrollView, Text, View } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { ScrollView, Text, View, Dimensions, StyleSheet } from 'react-native';
 import MapView, { MarkerAnimated } from 'react-native-maps';
+import { useVehicle } from '@/context/VehicleContext';
 
-const index=()=> {
+const Index = () => {
   const { selectedVehicle } = useVehicle();
-  const [fuelData, setFuelData] = useState([]);
   const [data, setData] = useState(null);
   const [location, setLocation] = useState({
     latitude: 11.273340,
@@ -15,118 +13,130 @@ const index=()=> {
     longitudeDelta: 0.01,
   });
 
-    useEffect(() => {
-      // Connect to the WebSocket server
-      const ws = new WebSocket('ws://192.168.1.6:8080');
-  
-      // Receive messages from the server
-      ws.onmessage = (event) => {
-        const data=JSON.parse(event.data)
-        console.log('Message from server:',data.data.voltage);
-        setData(data.data); // Parse JSON if data is in JSON format
-      };
-  
-      return () => {
-        ws.close(); // Clean up WebSocket connection on unmount
-      };
-    }, []);
+  useEffect(() => {
+    const ws = new WebSocket('ws://10.1.76.27ip:8080');
+    ws.onmessage = (event) => {
+      const receivedData = JSON.parse(event.data);
+      console.log('Message from server:', receivedData.data.voltage);
+      setData(receivedData.data);
+    };
 
-  // axios.get('http://192.168.179.195:3000/protected/data').then((res)=>{
-  //   console.log(res.data)
-  //   setFuelData(res.data)
+    return () => {
+      ws.close();
+    };
+  }, []);
 
-  // }).catch((err)=>{ console.log(err) } )
- 
   return (
-      <ScrollView contentContainerStyle={{paddingBottom:500,paddingHorizontal:20,paddingTop:50}}>
-       {
-            selectedVehicle&&<View className='flex justify-center items-center'><Text className='text-center font-bold text-xl bg-[#76ABAE] rounded-xl w-32 p-1'>{selectedVehicle.name}</Text></View>
-       }
-       <View className='mt-4'>
-      <Text className="text-lg bg-[#76ABAE]  border-2 border-[#76ABAE] rounded-xl w-20 text-center font-bold p-1 mb-4">MAP</Text>
-      </View>
-      <View className="flex h-1/2 border-black mb-8" style={{
-        elevation:10,
-        shadowColor:'#000',
-        borderRadius:10,
-      }}>
-
-      <MapView
-        region={location}
-        className='flex-1'
-      >
-        <MarkerAnimated
-          coordinate={{ latitude: location.latitude, longitude: location.longitude }}
-          title="Test"
-          description="Test"
-        />
-      </MapView>
-      </View>
-      <View className='flex flex-row flex-wrap gap-14'>
-      <View className='flex flex-col'>
-        <Text className='text-lg bg-[#76ABAE]  border-2 border-[#76ABAE] rounded-lg w-40 text-center font-bold p-1 mb-4'>FUEL LEVEL</Text>
-
-      {data ? (
-        <View className='bg-[#243642] border-2 border-[#76ABAE] rounded-lg font-bold p-1 text-md w-40' >
-        <Text> {data.voltage} </Text>
+    <ScrollView contentContainerStyle={styles.container}>
+      {/* Selected Vehicle */}
+      {selectedVehicle && (
+        <View style={styles.header}>
+          <Text style={styles.headerText}>{selectedVehicle.name}</Text>
         </View>
-      ) : (
-        <Text className='text-[#76ABAE] bg-[#243642] border-2 border-[#76ABAE] rounded-lg font-bold p-6 text-md w-40 text-center h-24'>No vehicle selected</Text>
       )}
-      </View>
 
-      <View className='flex flex-col mt-10'>
-        <Text className='text-lg bg-[#76ABAE] border-2 border-[#76ABAE] rounded-lg w-40 text-center font-bold p-1 mb-4'>SPEED</Text>
-
-      {selectedVehicle ? (
-        <View className='bg-[#243642] border-2 border-[#76ABAE] rounded-lg font-bold p-1 text-md w-40' >
-        <Text className='text-[#76ABAE]'> {selectedVehicle.id} </Text>
-        <Text className='text-[#76ABAE]'>1</Text>
-        <Text className='text-[#76ABAE]'>1</Text>
-        <Text className='text-[#76ABAE]'>1</Text>
-        <Text className='text-[#76ABAE]'>1</Text>
+      {/* Map Section */}
+      <View style={styles.section}>
+        <Text style={styles.sectionTitle}>MAP</Text>
+        <View style={styles.mapContainer}>
+          <MapView region={location} style={styles.map}>
+            <MarkerAnimated coordinate={location} title="Vehicle" description="Current Location" />
+          </MapView>
         </View>
-      ) : (
-        <Text className='text-[#76ABAE] bg-[#243642] border-2 border-[#76ABAE] rounded-lg font-bold p-6 text-md w-40 text-center h-24'>No vehicle selected</Text>
-      )}
       </View>
 
-      <View className='flex flex-col mt-10'>
-        <Text className='text-lg bg-[#76ABAE]  border-2 border-[#76ABAE] rounded-lg w-40 text-center font-bold p-1 mb-4'>ENGINE STATUS</Text>
-
-      {selectedVehicle ? (
-        <View className='bg-[#243642] border-2 border-[#76ABAE] rounded-lg font-bold p-1 text-md w-40' >
-        <Text className='text-[#76ABAE]'> {selectedVehicle.id} </Text>
-        <Text className='text-[#76ABAE]'>1</Text>
-        <Text className='text-[#76ABAE]'>1</Text>
-        <Text className='text-[#76ABAE]'>1</Text>
-        <Text className='text-[#76ABAE]'>1</Text>
-        </View>
-      ) : (
-        <Text className='text-[#76ABAE] bg-[#243642] border-2 border-[#76ABAE] rounded-lg font-bold p-6 text-md w-40 text-center h-24'>No vehicle selected</Text>
-
-      )}
+      {/* Data Section */}
+      <View style={styles.dataContainer}>
+        {renderDataBox('FUEL LEVEL', data ? `${data.voltage} V` : 'No vehicle selected')}
+        {renderDataBox('SPEED', selectedVehicle ? '60 km/h' : 'No vehicle selected')}
+        {renderDataBox('ENGINE STATUS', selectedVehicle ? 'ON' : 'No vehicle selected')}
+        {renderDataBox('GEAR NUMBER', selectedVehicle ? '3' : 'No vehicle selected')}
       </View>
-
-      <View className='flex flex-col mt-10'>
-        <Text className='text-lg bg-[#76ABAE]  border-2 border-[#76ABAE] rounded-lg w-40 text-center font-bold p-1 mb-4'>GEAR NUMBER</Text>
-
-      {selectedVehicle ? (
-        <View className='bg-[#243642] border-2 border-[#76ABAE] rounded-lg font-bold p-1 text-md w-40' >
-        <Text className='text-[#76ABAE]'>{selectedVehicle.id} </Text>
-        <Text className='text-[#76ABAE]'>1</Text>
-        <Text className='text-[#76ABAE]'>1</Text>
-        <Text className='text-[#76ABAE]'>1</Text>
-        <Text className='text-[#76ABAE]'>1</Text>
-        </View>
-      ) : (
-        <Text className='text-[#76ABAE] bg-[#243642] border-2 border-[#76ABAE] rounded-lg font-bold p-6 text-md w-40 text-center h-24'>No vehicle selected</Text>
-      )}
-      </View>
-      </View>
-      </ScrollView>    
-
-    
+    </ScrollView>
   );
-}
-export default index;
+};
+
+const renderDataBox = (title, value) => (
+  <View style={styles.dataBox}>
+    <Text style={styles.dataTitle}>{title}</Text>
+    <Text style={styles.dataValue}>{value}</Text>
+  </View>
+);
+
+const { width } = Dimensions.get('window');
+
+const styles = StyleSheet.create({
+  container: {
+    paddingBottom: 50,
+    paddingHorizontal: 20,
+    paddingTop: 50,
+  },
+  header: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 20,
+  },
+  headerText: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#76ABAE',
+    backgroundColor: '#243642',
+    borderRadius: 10,
+    padding: 10,
+    textAlign: 'center',
+    width: '80%',
+  },
+  section: {
+    marginBottom: 20,
+  },
+  sectionTitle: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: '#76ABAE',
+    backgroundColor: '#243642',
+    borderRadius: 10,
+    padding: 8,
+    textAlign: 'center',
+    width: '50%',
+    alignSelf: 'center',
+    marginBottom: 10,
+  },
+  mapContainer: {
+    height: width * 0.6, // Aspect ratio for responsiveness
+    borderRadius: 10,
+    overflow: 'hidden',
+    elevation: 10,
+    shadowColor: '#000',
+  },
+  map: {
+    flex: 1,
+  },
+  dataContainer: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'space-between',
+  },
+  dataBox: {
+    width: '45%', // Adjust width for two columns
+    backgroundColor: '#243642',
+    borderWidth: 2,
+    borderColor: '#76ABAE',
+    borderRadius: 10,
+    padding: 10,
+    marginBottom: 20,
+  },
+  dataTitle: {
+    fontSize: 14,
+    fontWeight: 'bold',
+    color: '#76ABAE',
+    textAlign: 'center',
+    marginBottom: 5,
+  },
+  dataValue: {
+    fontSize: 14,
+    color: '#76ABAE',
+    textAlign: 'center',
+  },
+});
+
+export default Index;

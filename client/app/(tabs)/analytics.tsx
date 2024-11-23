@@ -1,97 +1,184 @@
-import { View, Text, ScrollView, Dimensions, StyleSheet } from 'react-native';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import {
+  View,
+  Text,
+  ScrollView,
+  Dimensions,
+  StyleSheet,
+  ActivityIndicator,
+  Alert,
+} from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Picker } from '@react-native-picker/picker';
-import { useVehicle } from '@/context/VehicleContext';
 import { BarChart } from 'react-native-chart-kit';
+import axios from 'axios';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const Analytics = () => {
-  const { selectedVehicle } = useVehicle();
+interface AnalyticsData {
+  timestamp: string;
+  data: string; // JSON string containing metric data (e.g., { "voltage": 5.0, "speed": 20 })
+}
 
-  const data = {
-    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
-    datasets: [
-      {
-        data: [20, 45, 28, 80, 99, 43],
-      },
-    ],
+interface ChartData {
+  labels: string[];
+  datasets: { data: number[] }[];
+}
+
+const Analytics: React.FC = () => {
+  const [loading, setLoading] = useState<boolean>(true);
+  const [chartData, setChartData] = useState<ChartData>({
+    labels: [],
+    datasets: [{ data: [] }],
+  });
+  const [selectedMetric, setSelectedMetric] = useState<string>('voltage'); // Default metric is voltage
+
+  const fetchData = async () => {
+    try {
+      const token = await AsyncStorage.getItem('token'); // Retrieve token
+      const response = await axios.get<AnalyticsData[]>('http://192.168.107.195:3000/get-analytics-data', {
+        headers: {
+          Authorization: `Bearer ${token}`, // Pass token in headers
+        },
+      });
+
+      const fetchedData = response.data;
+
+      // Process data into 10-minute intervals
+      const processedData = processData(fetchedData, selectedMetric);
+      setChartData(processedData);
+      setLoading(false);
+    } catch (error) {
+      console.error('Error fetching analytics data:', error);
+      Alert.alert('Error', 'Failed to fetch data. Please try again later.');
+      setLoading(false);
+    }
   };
+
+  const processData = (data: AnalyticsData[], metricKey: string): ChartData => {
+    const groupedData: Record<string, number[]> = {};
+
+    data.forEach((item) => {
+      const timestamp = new Date(item.timestamp);
+      const intervalStart = new Date(
+        timestamp.getFullYear(),
+        timestamp.getMonth(),
+        timestamp.getDate(),
+        timestamp.getHours(),
+        Math.floor(timestamp.getMinutes() / 10) * 10
+      );
+
+      const intervalKey = intervalStart.toISOString();
+      const parsedData = JSON.parse(item.data);
+
+      if (!groupedData[intervalKey]) {
+        groupedData[intervalKey] = [];
+      }
+      groupedData[intervalKey].push(parsedData[metricKey]);
+    });
+
+    const labels: string[] = [];
+    const values: number[] = [];
+
+    Object.keys(groupedData)
+      .sort()
+      .forEach((key) => {
+        const intervalValues = groupedData[key];
+        const averageValue =
+          intervalValues.reduce((sum, val) => sum + parseFloat(val || 0), 0) /
+          intervalValues.length;
+
+        labels.push(
+          new Date(key).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+        );
+        values.push(averageValue);
+      });
+
+    return {
+      labels,
+      datasets: [{ data: values }],
+    };
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, [selectedMetric]);
 
   const chartWidth = Dimensions.get('window').width * 0.9;
 
   return (
-    <ScrollView
-      // contentContainerStyle={{ alignItems: 'center' }}
-      className="flex p-4 mt-12 text-[#76ABAE]"
-    >
-      <Text className="text-lg font-bold text-black bg-[#76ABAE] rounded-xl p-2 w-36 text-center mb-2">ANALYTICS</Text>
-      {/* Selected Vehicle Details */}
-      {selectedVehicle && (
-        <View className="flex h-80 border-2 bg-[#243642] border-[#76ABAE] rounded-lg w-full items-center justify-center mb-4 mt-4">
-          <Text className="text-lg font-bold mb-2 text-[#76ABAE]">
-            Driver Details
-          </Text>
-          <Text className="text-[#76ABAE]">Name: John Doe</Text>
-          <Text className="text-[#76ABAE]">License Number: ABC123456</Text>
-          <Text className="text-[#76ABAE]">Experience: 5 years</Text>
-          <Text className="text-[#76ABAE]">Contact: (123) 456-7890</Text>
-        </View>
-      )}
+    <SafeAreaView style={{ flex: 1 }}>
+      <ScrollView contentContainerStyle={styles.scrollView}>
+        <Text style={styles.header}>ANALYTICS</Text>
 
-      {/* Picker Component */}
-      <View style={styles.pickerWrapper}>
-        <Picker
-          selectedValue={1}
-          onValueChange={(itemValue, itemIndex) => console.log(itemValue)}
-          style={styles.picker}
-          dropdownIconColor="#76ABAE"
-        >
-          <Picker.Item label="Fuel" value={1} color='#76ABAE' />
-          <Picker.Item label="Speed" value={2} color='#76ABAE' />
-        </Picker>
-      </View>
+        {loading ? (
+          <ActivityIndicator size="large" color="#76ABAE" />
+        ) : (
+          <>
+            <View style={styles.pickerWrapper}>
+              <Picker
+                selectedValue={selectedMetric}
+                onValueChange={(value) => setSelectedMetric(value)}
+                style={styles.picker}
+              >
+                <Picker.Item label="Fuel" value="voltage" color="#76ABAE" />
+                <Picker.Item label="Speed" value="speed" color="#76ABAE" />
+              </Picker>
+            </View>
 
-      {/* Bar Chart */}
-      {/* <View className='flex-1 items-start'>
-      <Text className='text-xl font-bold text-black bg-[#76ABAE] rounded-xl p-2 text-center mt-4'>Fuel Consumption</Text>
-      </View> */}
-      <View style={{ alignItems: 'center', marginTop: 10 }}>
-        <BarChart
-          data={data}
-          width={chartWidth}
-          height={220}
-          yAxisLabel="$"
-          yAxisSuffix=""
-          chartConfig={{
-            backgroundColor: '#76ABAE',
-            backgroundGradientFrom: '#eff3ff',
-            backgroundGradientTo: '#76ABAE',
-            decimalPlaces: 2,
-            color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
-            labelColor: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
-          }}
-          verticalLabelRotation={30}
-          style={{ borderRadius: 10 }}
-        />
-      </View>
-    </ScrollView>
+            <View style={{ alignItems: 'center', marginTop: 10 }}>
+              <BarChart
+                data={chartData}
+                width={chartWidth}
+                height={220}
+                yAxisLabel=""
+                yAxisSuffix={selectedMetric === 'voltage' ? ' V' : ''}
+                chartConfig={{
+                  backgroundColor: '#76ABAE',
+                  backgroundGradientFrom: '#eff3ff',
+                  backgroundGradientTo: '#76ABAE',
+                  decimalPlaces: 2,
+                  color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
+                  labelColor: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
+                }}
+                verticalLabelRotation={30}
+                style={{ borderRadius: 10 }}
+              />
+            </View>
+          </>
+        )}
+      </ScrollView>
+    </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
+  scrollView: {
+    alignItems: 'center',
+    paddingBottom: 90,
+  },
+  header: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    backgroundColor: '#76ABAE',
+    color: '#000',
+    borderRadius: 10,
+    padding: 10,
+    textAlign: 'center',
+    width: '50%',
+  },
   pickerWrapper: {
-    width: '38%',
-    backgroundColor: '#243642', // Black background
-    borderRadius: 15, // Rounded borders
-    borderWidth: 2, // Yellow border thickness
-    borderColor: '#76ABAE', // Yellow border color
-    overflow: 'hidden', // Ensures rounded corners apply properly
-    marginBottom: 10,
-    marginTop:10,
-    
+    width: '60%',
+    backgroundColor: '#243642',
+    borderRadius: 15,
+    borderWidth: 2,
+    borderColor: '#76ABAE',
+    marginBottom: 20,
+    marginTop:20,
+    overflow: 'hidden',
   },
   picker: {
-    color: '#76ABAE', // Text color for options
+    
+    color: '#76ABAE',
     width: '100%',
   },
 });

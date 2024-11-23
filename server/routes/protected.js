@@ -15,8 +15,16 @@ const verify=(req,res,next)=>{
     }
 }
 router.get('/',verify,(req,res)=>{
-    console.log(req.user.mobile)
-    res.json({success:true,data:req.user})
+    console.log("hello")
+    db.all(`SELECT * FROM vehicles WHERE user = ?`, [req.user.name], (err, vehicles) => {
+        if (err) {
+            console.error(err);
+            res.status(500).json({ message: 'Server error', error: err });
+        } else {
+            res.json({ success: true, users: req.user, vehicles: vehicles });
+        }
+    });
+    
 })
 router.get('/data',(req,res)=>{
     db.all(`SELECT data FROM mqtt_data WHERE topic='Pleasure/ADC'`,(err,data)=>{
@@ -27,6 +35,24 @@ router.get('/data',(req,res)=>{
         else{
             res.json({success:true,data})
         }
+    })
+
+})
+
+router.post('/add-vehicle',verify,(req,res)=>{
+    const {name,type,model}=req.body;
+    console.log(req.body)
+    db.sql`
+    USE DATABASE vehicle-tracking-analytics;
+    INSERT INTO vehicles (user,name,type,model) VALUES (${req.user.name},${name},${type},${model});
+    `
+    .then(()=>{
+        console.log('Vehicle added successfully')
+        res.json({success:true,message:'Vehicle added successfully'})
+    })
+    .catch((error)=>{
+        console.log(error)
+        res.status(500).json({message:'Server error',error})
     })
 
 })
