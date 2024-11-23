@@ -70,7 +70,7 @@ const signUp = () => {
             <View className='border-2  border-[#76ABAE] rounded-3xl p-6'>
                 <Text className="text-3xl font-bold text-center text-[#76ABAE]">Create Account</Text>
                 <TextInput
-                    className='border-2 w-80 rounded-full border-[#76ABAE] p-2 mt-5'
+                    className='border-2 w-80 rounded-full text-white border-[#76ABAE] p-2 mt-5'
                     placeholder="User name"
                     placeholderTextColor={'#94a3b8'}
                     onChangeText={setUsername}
@@ -78,7 +78,7 @@ const signUp = () => {
                 />
                 <View className='flex'>
                     <TextInput
-                    className='border-2 w-80 rounded-full border-[#76ABAE] p-2 mt-5'
+                    className='border-2 w-80 rounded-full text-white border-[#76ABAE] p-2 mt-5'
                     placeholder='Mobile Number'
                     placeholderTextColor={'#94a3b8'}
                         keyboardType='numeric'
@@ -104,8 +104,9 @@ const signUp = () => {
                 {showOtp && (
                     <View className='w-80'>
                         <TextInput
-                    className='border-2 w-80 rounded-full border-[#76ABAE] p-2 mt-5'
+                    className='border-2 w-80 rounded-full text-white border-[#76ABAE] p-2 mt-5'
                     placeholder='Enter OTP'
+                    placeholderTextColor={'#94a3b8'}
                             keyboardType='numeric'
                             maxLength={4}
                             value={otp}

@@ -1,7 +1,6 @@
 import{ View, Text, TouchableOpacity } from 'react-native'
 import React from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
-
 import { Link, NavigationProp } from '@react-navigation/native';
 import { router } from 'expo-router';
 import { useVehicle } from '@/context/VehicleContext';
@@ -16,12 +15,10 @@ const chooseVehicle = ({ navigation }: { navigation: NavigationProp<any> }) => {
     id:2,
     name:"vehicle 2"
   },
-  
   {
     id:3,
     name:"vehicle 3"
   }
-
 ]
   return (
     <SafeAreaView className=' p-9 flex-1 gap-5 flex-col justify-center '>

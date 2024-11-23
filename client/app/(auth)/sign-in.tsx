@@ -87,7 +87,7 @@ const signIn = () => {
             {/* Mobile Number Input */}
             <View className='flex'>
                     <TextInput
-                    className='border-2 w-80 rounded-full border-[#76ABAE] p-2 mt-5'
+                    className='border-2 w-80 rounded-full text-white border-[#76ABAE] p-2 mt-5'
                     placeholder='Mobile Number'
                     placeholderTextColor={'#94a3b8'}
                         keyboardType='numeric'
@@ -115,7 +115,7 @@ const signIn = () => {
             {showOtp && (
                 <View className='w-80'>
                     <TextInput
-                    className='border-2 w-80 rounded-full border-[#76ABAE] p-2 mt-5'
+                    className='border-2 w-80 rounded-full text-white border-[#76ABAE] p-2 mt-5'
                     placeholder='Enter OTP'
                         keyboardType='numeric'
                         maxLength={6}
